@@ -1,0 +1,649 @@
+<ele-breadcrumb [items]="['Dashboard'|trans]" icon="home"></ele-breadcrumb>
+
+<div id="content" class="row">
+    <div class="col-md-3 ">
+        <div data-toggle="modal"  class="dashboard_PO box" (click)="showListPoNew()">
+            <span>{{'PO mới'}}</span>
+            <span class="box-item">{{Po_Submit?Po_Submit.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_PO box" (click)="ListPoProcessing()">
+            {{'PO đang xử lý'}}
+            <span class="box-item">{{Po_Accept?Po_Accept.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal"  class="dashboard_PO box" (click)="ListPoExpired()">
+            {{'PO quá hạn'}}
+            <span class="box-item">{{Po_Expired?Po_Expired.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_PO box" (click)="ListPoClose()">
+            {{'PO hoàn thành'}}
+            <span class="box-item">{{Po_Closed?Po_Closed.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_SO box" (click)="ListSoDraf()">
+            {{'SO nháp'}}
+            <span class="box-item">{{So_Draft?So_Draft.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_SO box" (click)="ListSoProcessing()">
+            {{'SO đang xử lý'}}
+            <span class="box-item">{{So_Confirmed?So_Confirmed.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_SO box"  (click)="ListSoExpired()">
+            {{'SO quá hạn'}}
+            <span class="box-item">{{So_Expired?So_Expired.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_SO box" (click)="ListSoClose()">
+            {{'SO hoàn thành'}}
+            <span class="box-item">{{So_Closed?So_Closed.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_DN box" (click)="ListDnDraft()">
+            {{'DN đang xử lý'}}
+            <span class="box-item">{{Dn_Draft?Dn_Draft.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_DN box" (click)="ListDnWaitingForConfirm()">
+            {{'DN đang chờ duyệt hạn mức'}}
+            <span class="box-item">{{Dn_WaitingForConfirm?Dn_WaitingForConfirm.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal" class="dashboard_DN box" (click)="ListDnApproved()">
+            {{'DN đã được duyệt hạn mức'}}
+            <span  class="box-item">{{Dn_Approve?Dn_Approve.value:0}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div data-toggle="modal" data-target="#exampleModal"  class="dashboard_DN box" (click)="ListDnConfirm()">
+            {{'DN hoàn thành'}}
+            <span class="box-item">{{Dn_Confirm?Dn_Confirm.value:0}}</span>
+        </div>
+    </div>
+</div>
+<div class="table-list">
+    <div class="title">Danh Sách Nhà phân phối hết hạn mức tín dụng</div>
+    <div class="list-item row">
+        <div class="item col-md-3" *ngFor="let i of crel_expired; let index = index">
+            {{ (index + 1) + '. ' + i.distributor.name}}
+        </div>
+    </div>
+</div>
+<div class="table-list">
+    <div class="title">Danh Sách Nhà phân phối sắp hết hạn mức tín dụng</div>
+    <div class="list-item row">
+        <div class="item col-md-3" *ngFor="let i of crel_upcoming_expired; let index = index">
+            {{ (index + 1) + '. ' + i.distributor.name}}
+        </div>
+    </div>
+</div>
+
+<!-- Modal Po New -->
+<div class="modal fade" id="PoNew" tabindex="-1" role="dialog" aria-labelledby="PoNew" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PoNew_Title">PO mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'PO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Customer' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Po_Submit.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Po_Submit">
+                        <tr *ngFor="let item of List_Po_Submit; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td> {{ item.po_number }}  </td>
+                            <td>  {{ item.factory_name }}  </td>
+                            <td>  {{ item.customer_name }}  </td>
+                            <td> {{ 'Submit' | trans }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Po Processing -->
+<div class="modal fade" id="PoProcessing" tabindex="-1" role="dialog" aria-labelledby="PoProcessing" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Po_Processing">PO  đang xử lý</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'PO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Customer' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Po_Processing.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Po_Processing">
+                    <tr *ngFor="let item of List_Po_Processing; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.po_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.customer_name }}  </td>
+                        <td *ngIf="item.status === app.constant.SALES_ACCEPTED"> {{ 'Accepted' | trans }} </td>
+                        <td *ngIf="item.status === app.constant.DELIVERING"> {{ 'Delivering' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Po Expired -->
+<div class="modal fade" id="PoExpired" tabindex="-1" role="dialog" aria-labelledby="PoExpired" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Po_Expired">PO  quá hạn </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'PO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Customer' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                        <th> {{ 'Deliver Date' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Po_Expired.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Po_Expired">
+                    <tr *ngFor="let item of List_Po_Expired; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.po_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.customer_name }}  </td>
+                        <td>
+                            <span *ngIf="item.status === app.constant.REVIEWING"> {{ ' Reviewing' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.REJECTED_BY_SALES"> {{ ' Rejected ' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.CANCELLED_BY_CUSTOMER"> {{ 'Cancelled' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.SALES_ACCEPTED"> {{ ' Accepted ' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.DELIVERING"> {{ ' Delivering ' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.SUBMITED"> {{ ' Submited ' | trans }} </span>
+                        </td>
+                        <td> {{ item.deliver_date }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Po Close -->
+<div class="modal fade" id="PoClose" tabindex="-1" role="dialog" aria-labelledby="PoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Po_Close">PO  Close </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'PO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Customer' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Po_Expired.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Po_Expired">
+                    <tr *ngFor="let item of List_Po_Expired; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.po_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.customer_name }}  </td>
+                        <td> {{ 'Close' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal So Darf-->
+<div class="modal fade" id="SoDraf" tabindex="-1" role="dialog" aria-labelledby="SoDraf" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="So_Draf">{{'So nháp ' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'SO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_So_Draf.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_So_Draf">
+                    <tr *ngFor="let item of List_So_Draf; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.so_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.sale_name }}  </td>
+                        <td *ngIf="item.status === app.constant.SO_DRAFT"> {{ 'DRAFT' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal So Open-->
+<div class="modal fade" id="SoProcessing" tabindex="-1" role="dialog" aria-labelledby="SoProcessing" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="So_Processing">{{'SO đang xử lý ' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'SO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_So_Processing.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_So_Processing">
+                    <tr *ngFor="let item of List_So_Processing; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.so_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.sale_name }}  </td>
+                        <td *ngIf="item.status === app.constant.SO_OPEN"> {{ 'OPEN' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal So Expired-->
+
+<div class="modal fade" id="SoExpired" tabindex="-1" role="dialog" aria-labelledby="SoExpired" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="So_Expired">{{'SO quá hạn' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'SO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_So_Processing.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_So_Processing">
+                    <tr *ngFor="let item of List_So_Processing; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.so_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.sale_name }}  </td>
+                        <td *ngIf="item.status === app.constant.SO_OPEN"> {{ 'OPEN' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal So Close-->
+<div class="modal fade" id="SoClose" tabindex="-1" role="dialog" aria-labelledby="SoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="So_Close">{{'SO Close ' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'SO Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_So_Close.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_So_Close">
+                    <tr *ngFor="let item of List_So_Close; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.so_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td>  {{ item.sale_name }}  </td>
+                        <td *ngIf="item.status === app.constant.SO_CLOSE"> {{ 'Close' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Dn Draft-->
+<div class="modal fade" id="DnDraft" tabindex="-1" role="dialog" aria-labelledby="SoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Dn_Draft">{{'DN đang xử lý' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'Dn Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Distributor' | trans }} </th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Dn_Draft.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Dn_Draft">
+                    <tr *ngFor="let item of List_Dn_Draft; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.dn_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td> {{ item.distributor_name }} </td>
+                        <td>  {{ item.user_name }}  </td>
+                        <td>
+                            <span *ngIf="item.status === app.constant.deliveryDraftStatus"> {{ 'Draft' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.deliveryWaitingApproveWhenOver"> {{ 'Waiting approve when orver' | trans }} </span>
+                            <span *ngIf="item.status === app.constant.deliveryApproved"> {{ 'Approved' | trans }} </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Dn WaitingForConfirm-->
+<div class="modal fade" id="DnWaitingForConfirm" tabindex="-1" role="dialog" aria-labelledby="SoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Dn_WaitingForConfirm">{{'DN đang chờ duyệt hạn mức' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'Dn Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Distributor' | trans }} </th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Dn_WaitingForConfirm.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Dn_WaitingForConfirm">
+                    <tr *ngFor="let item of List_Dn_WaitingForConfirm; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.dn_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td> {{ item.distributor_name }} </td>
+                        <td>  {{ item.user_name }}  </td>
+                        <td> {{ 'WAITING APPROVE WHEN OVER' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Dn ListDnApproved-->
+<div class="modal fade" id="DnApproved" tabindex="-1" role="dialog" aria-labelledby="SoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ListDnApproved">{{'DN đã được duyệt hạn mức' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'Dn Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Distributor' | trans }} </th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Dn_Approved.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Dn_Approved">
+                    <tr *ngFor="let item of List_Dn_Approved; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.dn_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td> {{ item.distributor_name }} </td>
+                        <td>  {{ item.user_name }}  </td>
+                        <td> {{ 'Approved' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Dn ListDnConfirm-->
+<div class="modal fade" id="DnConfirm" tabindex="-1" role="dialog" aria-labelledby="SoClose" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ListDnConfirm">{{'DN hoàn thành' | trans}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'Dn Number' | trans }}</th>
+                        <th>{{ 'Factory' | trans }}</th>
+                        <th> {{ 'Distributor' | trans }} </th>
+                        <th> {{ 'Sale Name' | trans }} </th>
+                        <th> {{ 'Status' }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="List_Dn_Confirm.length === 0">
+                        <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="List_Dn_Confirm">
+                    <tr *ngFor="let item of List_Dn_Confirm; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td> {{ item.dn_number }}  </td>
+                        <td>  {{ item.factory_name }}  </td>
+                        <td> {{ item.distributor_name }} </td>
+                        <td>  {{ item.user_name }}  </td>
+                        <td> {{ 'Confirm' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

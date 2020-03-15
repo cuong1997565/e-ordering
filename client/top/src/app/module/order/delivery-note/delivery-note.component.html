@@ -1,0 +1,92 @@
+<div id="main" class="main order-page">
+    <form class="container cd-form">
+        <div class="block">
+            <h2 class="block__title orange__title">Delivery Note Items</h2>
+            <div class="table-list">
+                <table class="table-list__table table-mb__full-1">
+                    <tbody>
+                    <tr>
+                        <th class="text-center min-with"></th>
+                        <th class="text-center min-with">{{ 'Code' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Name' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Image' | trans }}</th>
+                        <th class="text-center">{{ 'Customer Note' | trans }}</th>
+                        <th class="text-center">{{ 'Sale Note' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Grade' | trans }}</th>
+                        <th class="text-center" style="min-width: 200px">{{ 'Attributes' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Ordered UOM' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Customer Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Sales Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Delivered Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Remaining Quantity' | trans }}</th>
+                        <th class="text-center" style="min-width: 200px"> {{ 'Store' | trans }} </th>
+                    </tr>
+                    </tbody >
+                    <tbody *ngIf="ld">
+                    <tr *ngIf="arr.length == 0">
+                        <td class="center" colspan="8" rowspan="8">
+                            {{'No data result' | trans}}
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tbody *ngFor="let item of arr; let i = index">
+                    <tr *ngFor="let pivot of item.pivot_item; let i_child = index">
+                        <td class="center table__code">
+                            {{  pivot.stt }}
+                        </td>
+                        <td *ngIf="pivot.product" class="text-center">{{pivot.product.code}}</td>
+                        <td *ngIf="pivot.product" class="text-center"> {{ pivot.product.display_name }} </td>
+                        <td *ngIf="pivot.product"><img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{pivot.product.image}}"
+                                                       width="95px" height="95px"></td>
+                        <td><textarea  class="dn_note {{pivot.id}}"
+                                      cols="20" rows="3" disabled> {{ pivot.user_note }} </textarea>
+                        </td>
+                        <td><textarea  class="dn_note {{pivot.id}}"
+                                      cols="20" rows="3" disabled> {{ pivot.sale_note }} </textarea>
+                        </td>
+                        <td>{{pivot.grade ? pivot.grade.name : ''}}</td>
+                        <td class="text-center">
+                            <div *ngFor="let attr of pivot.product_attr">
+                                 <span *ngIf="attr.type === app.constant.Attributes_Type_String">{{attr.name + ':'}}<input
+                                     disabled class="attr product_attr{{attr.id + i}}" type="text" value="{{attr.attribute_label}}"></span>
+                                <span *ngIf="attr.type === app.constant.Attributes_Type_Number">{{attr.name + ':'}}<input
+                                    disabled class="attr product_attr{{attr.id + i}}" type="text" value="{{attr.attribute_label}}"></span>
+                                <span *ngIf="attr.type === app.constant.Attributes_Type_List">{{attr.name + ':'}}
+                                    <select *ngIf="attr.listAttribute" disabled style="width: 100%">
+                                    <option *ngFor="let j of attr.listAttribute|list" [value]="j.key" [selected]="j.key == attr.attribute_label" >
+                                        {{j.value}}
+                                    </option>
+                                </select>
+                                </span>
+                            </div>
+                        </td>
+                        <td *ngIf="pivot.uom" class="text-center">{{pivot.uom.name}}</td>
+                        <td class="text-center">{{pivot.customer_quantity | number:'1.0-2'}} </td>
+                        <td class="text-center">{{ pivot.sale_quantity ? pivot.sale_quantity : '' | number:'1.0-2'}}</td>
+                        <td class="text-center"> {{ pivot.delivered_quantity ? pivot.delivered_quantity : '' | number:'1.0-2' }} </td>
+                        <td class="text-center"> {{ pivot.remaining_quantity ? pivot.remaining_quantity : '' | number:'1.0-2'}} </td>
+                        <td>
+                            <div>
+                                <select  disabled style="width: 100%">
+                                    <option *ngFor="let k of pivot.product.productstore|list: ('Select')" [value]="k.key" [selected]="k.key" >
+                                        {{k.value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="18" class="text-center">{{item.so_name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="block__bottom">
+                <button class="button_black marRight-10" (click)="backSO()">Back Sale Order</button>
+            </div>
+
+        </div>
+
+    </form>
+</div>

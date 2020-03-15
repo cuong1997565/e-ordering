@@ -1,0 +1,63 @@
+<ele-breadcrumb [items]="['Mail Template'|trans, 'Management' |trans]" icon="envelope-o"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Mail Template'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Select template'|trans}}</label>
+                                <div class="col-md-10">
+                                    <select class="form-control duynb" (change)="change()" formControlName="id">
+                                        <option *ngFor="let item of templates|list" [value]="item.key" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Subject'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-language-input [id]="'subject'" [type]="'text'" [placeholder]="'Subject'" formControlName="subject"></ele-language-input>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Content'|trans}}</label>
+                                <div class="col-md-10">
+                                    <ele-editor [multipleLang]="true" [id]="'ck-content'" formControlName="content"></ele-editor>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="col-md-2 control-label">{{'Variable'|trans}}</label>
+                                <div class="col-md-10">
+                                    <p *ngFor="let item of variable"><b>{{item.key}}</b> : {{item.value}}</p>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="form-group action_box text-right">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <button class="btn btn-success" type="submit">{{'Update'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<ele-breadcrumb [items]="['Credit Account'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="user-md"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Credit Account'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                        <fieldset>
+                            <div *ngIf="fd.isNew" id="distributor" class="form-group">
+                                <label class="col-md-4 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select formControlName="distributor_id" class="input-sm form-control">
+                                        <option *ngFor="let item of ListDistributor|list:('Select'|trans)" [value]="item.key" [selected]="item.key==data.distributor_id || item.key == ''" >{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="!fd.isNew" class="form-group">
+                                <label class="col-md-4 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select formControlName="distributor_id" class="input-sm form-control">
+                                        <option *ngFor="let item of distributor3|list:('Select'|trans)" [value]="item.key" [selected]="item.key==data.distributor_id || item.key == ''" >{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" formControlName="amount" disabled placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <label class="col-md-4 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">{{'Hold Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" formControlName="hold_amount" disabled placeholder="{{'Hold Amount'|trans}}" class="form-control" />
+                                </div>
+                                <label class="col-md-4 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">{{'Available Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" formControlName="available_amount" disabled placeholder="{{'Available Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                                <label class="col-md-4 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">{{'Credit Limit'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" formControlName="credit_limit" placeholder="{{'Credit Limit'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                                <label class="col-md-4 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-4">
+                                    <a class="btn btn-default" [routerLink]='["/credit-account"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

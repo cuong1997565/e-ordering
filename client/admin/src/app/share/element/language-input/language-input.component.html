@@ -1,0 +1,10 @@
+<div id="language-input-{{id}}">
+    <input id="{{id}}" #tbLangInput type="hidden" class="form-control" />
+    <div class="languages_box">
+        <span *ngFor="let item of languages" title="{{item.title|trans}}" [ngClass]="{'current': item.language==currentLanguage, 'active': data[id][item.language]}" (click)="showInput(item.language)"><i class="flag flag-{{item.language}}"></i></span>
+    </div>
+    <div *ngFor="let item of languages" [hidden]="item.language!==currentLanguage" class="input_box">
+        <textarea (keyup)="onKeyUp($event)" placeholder="{{placeholder|trans}}" *ngIf="type=='textarea'" class="form-control input_{{id}}_{{item.language}}">{{data[id][item.language]}}</textarea>
+        <input (keyup)="onKeyUp($event)" placeholder="{{placeholder|trans}}" *ngIf="type=='text'" class="form-control input_{{id}}_{{item.language}}" value="{{data[id][item.language]}}"/>
+    </div>
+</div>

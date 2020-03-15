@@ -1,0 +1,76 @@
+<ele-breadcrumb [items]="['Credit Transaction'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="exchange"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Credit Transaction'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal"  (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <select formControlName="credit_id" class="input-sm form-control">
+                                        <option *ngFor="let item of creditAccount|list:('Select'|trans)" [value]="item.key" >{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Transaction Type'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <select formControlName="transaction_type" class="input-sm form-control">
+                                        <option *ngFor="let item of this.app.constant.TransactionType|list:('Select'|trans)" [value]="item.key" >{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Amount'|trans}}  <span class="text-danger">*</span> </label>
+                                <div class="col-md-10">
+                                    <input type="number" formControlName="amount" placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Reference'|trans}}  <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="reference" placeholder="{{'reference'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Description'|trans}}  <span class="text-danger">*</span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="description" placeholder="{{'description'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Is Hold' |trans }} </label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="is_hold" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/credit-transaction/"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

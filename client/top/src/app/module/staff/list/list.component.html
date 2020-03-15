@@ -1,0 +1,117 @@
+<div class="loading-bg" *ngIf="loading">
+    <div class="loading-img">
+        <img src="assets/images/white-load.gif">
+    </div>
+</div>
+<div id="main" class="main cd-form">
+    <section class="search">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="search__title">Search User:</h2>
+                    <form action="" class="search__form cd-form" [formGroup]="fd.form">
+                        <div class="row search-line-2">
+                            <div class="col-sm-3">
+                                <label class="search__form__label">Role:</label>
+                                <ele-select-dropdown [selectedId]="is_admin" [defaultLabel]="'--- Select Role ---'" [options]="role" (selectChange)="changeRole($event)" ></ele-select-dropdown>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="search__form__label">Name:</label>
+                                <input type="text" formControlName="name" class="input-text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 search__button">
+                                <input type="submit" class="button_black" (click)="search()" value="Search">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container block">
+        <div class="row paging-section">
+            <div class="offset-md-9 offset-sm-8 col-md-3 col-sm-4 cd-form paging-section__right">
+                <div class="paging-section__text">Display</div>
+                <select class="select-cus paging-select">
+                    <option value="10" selected>10 Items</option>
+                    <option value="20" >20 Items</option>
+                    <option value="50">50 Items</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <a [attr.action]="'/staff/form'" [routerLink]="['/staff/form']" id="button_black" class="button_black1">{{'Create User'}}</a>
+
+            <div class="col-sm-12 search__button">
+            </div>
+        </div>
+        <div class="table-list">
+            <table *ngIf="ld" class="table-list__table table-list__ad-login cd-form">
+                <tr>
+                    <th class="table-list__table--with-no">Ｎｏ</th>
+                    <th style="width: 130px">Username</th>
+                    <th style="width: 130px">Name</th>
+                    <th style="width: 130px">Email</th>
+                    <th style="width: 130px">Phone</th>
+                    <th style="width: 200px">Distributor</th>
+                    <th style="width: 200px">Role</th>
+                    <th *ngIf="check === app.constant.GROUP_ADMIN" style="width: 250px">Active</th>
+                    <th *ngIf="check === app.constant.GROUP_ADMIN" style="width: 150px"></th>
+                </tr>
+                <tr *ngFor="let item of ld.result.data; let i = index">
+                    <td class="center">
+                        {{ld.result.from + i }}
+                    </td>
+                    <td class="center">
+                        {{item.username}}
+                    </td>
+                    <td class="center">
+                        {{item.name}}
+                    </td>
+                    <td class="center">
+                        {{item.email}}
+                    </td>
+                    <td class="center">
+                        {{item.telephone}}
+                    </td>
+                    <td class="center">
+                        {{item.distributor.name}}
+                    </td>
+                    <td class="center">
+                        <span *ngIf="item.is_admin === app.constant.ORDER_VIEWER">{{'ORDER VIEWER'}}</span>
+                        <span *ngIf="item.is_admin === app.constant.ORDER_MANAGER">{{'ORDER MANAGER'}}</span>
+                        <span *ngIf="item.is_admin === app.constant.GROUP_ADMIN">{{'ACCOUNT HOLDER'}}</span>
+                    </td>
+                    <td *ngIf="check === app.constant.GROUP_ADMIN" class="text-center">
+                         <span class="sign-info__check cd-checkbox-container">
+                            <input *ngIf="item.is_admin === app.constant.ORDER_VIEWER" [(ngModel)]="item.active" (change)="changeActive(item.active?'1':'0', item.id)" type="checkbox" class="checkbox">
+                            <input *ngIf="item.is_admin === app.constant.ORDER_MANAGER" [(ngModel)]="item.active" (change)="changeActive(item.active?'1':'0', item.id)" type="checkbox" class="checkbox">
+                            <label></label>
+                        </span>
+
+                    </td>
+                    <td *ngIf="check === app.constant.GROUP_ADMIN">
+                        <button *ngIf="item.is_admin === app.constant.ORDER_VIEWER" [routerLink]="['/staff/form', item.id]" class="button_black-bor">Edit</button>
+                        <button *ngIf="item.is_admin === app.constant.ORDER_MANAGER" [routerLink]="['/staff/form', item.id]" class="button_black-bor">Edit</button>
+                    </td>
+                </tr>
+                <tr *ngIf="ld.result.total == 0">
+                    <td *ngIf="check === app.constant.GROUP_ADMIN" colspan="9">
+                        <p class="text-center">{{'No data result'|trans}} </p>
+                    </td>
+                    <td *ngIf="check === app.constant.ORDER_MANAGER" colspan="7">
+                        <p class="text-center">{{'No data result'|trans}} </p>
+                    </td>
+                    <td *ngIf="check === app.constant.ORDER_VIEWER" colspan="7">
+                        <p class="text-center">{{'No data result'|trans}} </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="paginator" *ngIf="ld.result.total > 0">
+            <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+        </div>
+    </div>
+</div>

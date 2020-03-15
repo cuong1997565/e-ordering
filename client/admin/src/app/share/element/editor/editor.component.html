@@ -1,0 +1,9 @@
+<div *ngIf="multipleLang">
+    <div class="languages_box">
+        <span *ngFor="let item of languages" title="{{item.title|trans}}" [ngClass]="{'current': item.language==currentLanguage, 'active': data[id][item.language]}" (click)="showInput(item.language)"><i class="flag flag-{{item.language}}"></i></span>
+    </div>
+    <div *ngFor="let item of languages" [hidden]="item.language!==currentLanguage" class="input_box">
+        <textarea id="{{id+'_'+item.language}}">{{data[id][item.language]}}</textarea>
+    </div>
+</div>
+<textarea  *ngIf="!multipleLang" id="{{id}}"></textarea>

@@ -1,0 +1,66 @@
+<ele-breadcrumb [items]="['Product'|trans, 'List'|trans]" icon="cube"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/product/form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_PRODUCT]">{{'New product'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting" (click)="ld.sort('code', $event)">{{ 'Code' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('display_name', $event)">{{ 'Display Name' | trans }}</th>
+                            <th>{{ 'Image' | trans }}</th>
+                            <th  class="sorting" (click)="ld.sort('categories:name', $event)"> {{ 'Category' |trans }} </th>
+                            <th class="sorting" (click)="ld.sort('release_date', $event)"> {{ 'Release Date' }} </th>
+                            <th class="sorting col-md-1" (click)="ld.sort('active',$event)"><a>{{'Status'|trans}}</a></th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('code', $event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('display_name', $event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"></th>
+                            <th class="hasinput"><input (input)="ld.change('categories:name', $event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('release_date', $event)" type="date" class="form-control" placeholder="{{'Filter' |trans}}}"> </th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('active',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)"  title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ ld.result.from + i }}</td>
+                            <td> {{ item.code }} </td>
+                            <td> {{ item.display_name }} </td>
+                            <td> <img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{item.image}}" width="75px" height="75px"> </td>
+                            <td> <span *ngIf="item.category"> {{ item.category.name }} </span> </td>
+                            <td> {{ item.release_date  }} </td>
+                            <td class="text-center"><ele-active active="{{item.active}}" model="Product" id="{{item.id}}"></ele-active></td>
+
+                            <td class="text-center">
+                                <!-- <a [routerLink]='["/user",item.id]' title="{{'View'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a> -->
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_PRODUCT]" [routerLink]='["/product/form",item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

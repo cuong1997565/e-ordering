@@ -1,0 +1,47 @@
+<!-- content start -->
+<div class="content">
+    <div class="page-slide">
+        <div class="container">
+            <div class="page-slide__detail">
+                <img class="page-slide__detail__img" src="assets/images/page-slide.png" alt="">
+                <div class="page-slide__detail__caption">{{'Contact'|trans}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="contact-detail">
+            <div class="row">
+                <div class="col-sm-6" >
+                    <div *ngIf="msg" [innerHTML]="msg"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="contact-form">
+                        <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                            <div class="row">
+                                <div class="col-sm-6 form__name">
+                                    <input type="text" formControlName="name" placeholder="{{'Full name'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="col-sm-6 form__phone">
+                                    <input type="text" formControlName="phone_number" placeholder="{{'Phone'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                            </div>
+
+                            <div class="input">
+                                <input type="text" formControlName="email" placeholder="{{'Email'|trans}}" class="form-control" />
+                            </div>
+                            <div class="input">
+                                <input type="text" formControlName="content" placeholder="{{'Content'|trans}}" class="form-control" />
+                            </div>
+                            <div class="submit">
+                                <input class="submit__btn" type="submit" value="{{'Send'|trans}}">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- content end -->

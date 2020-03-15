@@ -1,0 +1,34 @@
+<div id="main" class="main top-page">
+    <div class="container">
+        <div class="row ">
+            <div class="col-sm-8 block top-page__new">
+                <h2 class="block__title orange__title">Summary</h2>
+                <div class="block__content">
+                    <strong>🔲 Total Ordered item: 100,000</strong><br>
+                    &emsp;&emsp;Amount: $9,999,999<br>
+                    <strong>🔲 Ordering Item: 100</strong> <br>
+                    &emsp;&emsp; Amount: $400,000<br>
+                    <strong>🔲 Last ordered: 2019/08/20</strong><br>
+                    &emsp;&emsp;Order by: Nguyen Van A<br>
+                    &emsp;&emsp;Order status: Approved<br>
+                </div>
+            </div>
+            <div class="col-sm-4 block top-page__down">
+                <h2 class="block__title orange__title">Catalog</h2>
+                <div class="block__content">
+                    <p class="top-page__down--text">Download lastest Prime product catalog！！</p>
+                    <ul class="top-page__down__list">
+                        <li *ngFor="let item of ld.result.data" class="top-page__down__item">
+                            <a style="color: #0523ee" (click)="goDownload(item.file, item.name)" class="top-page__down__text">{{item.name}}</a>
+                            <span class="top-page__down__icon" (click)="goDownload(item.file, item.name)"><img src="assets/images/icon-download.png" alt=""></span>
+                        </li>
+<!--                        <p class="top-page__down&#45;&#45;text"><a href="#"> <i><u>More catalog</u></i></a></p>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    Copyright © PRIME CORPORATION
+</div>

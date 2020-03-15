@@ -1,0 +1,76 @@
+<ele-breadcrumb [items]="['Role'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="group"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Permission'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal"  (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Code '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="name" placeholder="{{'Code'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Display Name '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="display_name" placeholder="{{'Display Name'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Description '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="description" placeholder="{{'Description'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Active' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Permission'|trans}}</label>
+                                <div class="col-md-10 permission-container">
+                                    <div class="row permission-item" *ngFor="let item of permissions | keyvalue">
+                                        <div class="col-md-2" style="padding-top: 7px">
+                                            <label class="padding">{{item.key}}:</label>
+                                        </div>
+                                        <div class="checkbox col-md-9">
+                                            <label *ngFor="let permission of item.value" [ngStyle]="{'margin-right.px':15,'margin-botton.px':15}">
+                                                <input type="checkbox" [checked]="oldPermissions[permission.id]" (change)="getCheckbox(permission.id, $event)"  class="checkbox style-0"  />
+                                                <span>{{permission.name}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/roles"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

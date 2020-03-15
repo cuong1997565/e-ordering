@@ -1,0 +1,26 @@
+.block__bottom{
+    padding-top: 70px;
+}
+
+.list-info th{
+    width: 250px;
+}
+input, select{
+    width: 550px;
+    padding-left: 5px !important;
+}
+
+input[type=checkbox], input[type=radio]{
+    height: 20px;
+}
+
+.has-error{
+    border: 1px solid red !important;
+}
+.help-block{
+    font-size: 100% !important;
+}
+
+#active{
+    width: 50px;
+}

@@ -1,0 +1,45 @@
+<div class="header header__logo" >
+    <div class="container header-inner">
+        <div class="header--left">
+            <h1 class="logo-main">
+                <img class="logo-main_pc" src="assets/images/prime.gif">
+                <img class="logo-main_mb" src="assets/images/prime.gif">
+            </h1>
+        </div>
+    </div>
+</div>
+<div *ngIf="check" class="main main__logo login-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <form class="col-md-6 col-sm-10 login--form cd-form" [formGroup]="form"  (ngSubmit)="save()">
+                <p *ngIf="mess === false" class="login__note">Please input new password</p>
+                <p *ngIf="mess" class="login__note">Reset password successfully</p>
+                <div class="login__content row justify-content-center">
+                    <div *ngIf="mess" class="justify-content-left login__content-padding">
+                        <p class="text-center">Reset password successfully!</p>
+                        <p class="text-center">Please login again!</p>
+                    </div>
+                    <div class="col-md-8 login__item">
+                        <label class="cd-form__label">
+                            New password:
+                        </label>
+                        <input id="password_new" type="password" class="input-text" formControlName="password_new">
+                    </div>
+                    <div class="col-md-8 login__item">
+                        <label class="cd-form__label">
+                            New password（Retype）:
+                        </label>
+                        <input id="password_confirmation" type="password" class="input-text" formControlName="password_confirmation">
+                    </div>
+                </div>
+                <div class="login__bottom show-mess">
+                    <input type="submit" class="button_black" value="Submit">
+                </div>
+                <a [routerLink]="" (click)="login()" class="login__bottom--link">Back to login screen</a>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    Copyright © PRIME CORPORATION
+</div>

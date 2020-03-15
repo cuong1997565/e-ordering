@@ -1,0 +1,82 @@
+ul,li{
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 99; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #000000; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the nav */
+    display: block;
+  }
+
+  /* The navigation menu links */
+  .nav__item{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    padding-right: 0;
+  }
+  .nav a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #ffffff;
+    display: block;
+    transition: 0.3s;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 0;
+  }
+  .nav .nav-close a{
+    text-align: right;
+  }
+
+
+  /* When you mouse over the navigation links, change their color */
+  .nav a:hover {
+    color: #f1f1f1;
+  }
+
+  /* Position and style the close button (top right corner) */
+  .nav .closebtn {
+      position: inherit;
+      top: 0;
+      right: 10px;
+      font-size: 36px;
+      margin-top: -55px;
+  }
+
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  .nav-open{
+    position: absolute;
+    left: 10px;
+    font-size: 30px;
+    top: 10px;
+  }
+}
+
+
+
+/* On smaller screens, where height is less than 450px, change the style of the nav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .nav {padding-top: 15px;}
+  .nav a {font-size: 18px;}
+}
+@media (min-width: 769px) {
+  .nav-open {
+      display: none !important;
+  }
+  .nav-close{
+      display: none !important;
+  }
+}

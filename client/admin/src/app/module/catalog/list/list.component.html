@@ -1,0 +1,72 @@
+<ele-breadcrumb [items]="['Catalog'|trans, 'List'|trans]" icon="user-md"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+
+        <div class="row">
+            <div class="widget-body">
+                <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                    <fieldset>
+                        <div class="form-group import">
+                            <label class="col-md-2 control-label">{{'File'|trans}} <span
+                                class="text-danger">*</span></label>
+                            <div class="col-md-5">
+                                <ele-upload fieldName="file" extensions="xlsx|xls|pdf" size="5120"></ele-upload>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-success" [disabled]="disabled" type="submit">{{'Submit'|trans}}</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th><a>{{'ID'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'File name'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('created_at',$event)"><a>{{'Created'|trans}}</a></th>
+                            <th class="text-center col-md-2">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control"
+                                                        placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput"><input (input)="ld.change('created_at',$event)" class="form-control"
+                                                        placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="text-center col-md-2">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}"
+                                   class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="5" class="text-center">{{'No data user result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data let i = index;">
+                            <td>{{i + 1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.created_at}}</td>
+                            <td class="text-center" *ngIf="app.curUser.group == app.constant.GROUP_ADMIN">
+                                <!-- <a [routerLink]='["/user",item.id]' title="{{'View'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a> -->
+                                <a (click)="del(item.id, item)" title="{{'Delete'|trans}}"
+                                   class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}"
+                               totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

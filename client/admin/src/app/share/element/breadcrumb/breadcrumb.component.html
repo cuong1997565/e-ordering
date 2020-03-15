@@ -1,0 +1,21 @@
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon">
+            <i class="fa-fw fa fa-{{icon}}"></i>
+        </span>
+    </span>
+
+    <!-- breadcrumb -->
+    <ol class="breadcrumb">
+        <li *ngFor="let item of items">
+            <span *ngIf="typeOfItem(item)">
+                <a class="text-bold" [routerLink]="[item.url]">{{item.label}}</a>
+            </span>
+            <span *ngIf="!typeOfItem(item)">
+                {{item}}
+            </span>
+        </li>
+    </ol>
+</div>
+
+<ele-flash></ele-flash>

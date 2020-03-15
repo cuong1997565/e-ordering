@@ -1,0 +1,12 @@
+.disabled a {
+    pointer-events: none;
+}
+a {
+    cursor: pointer;
+}
+.page-link:hover{
+    color: white !important;
+}
+.pagination{
+    float: right;
+}

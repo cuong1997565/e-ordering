@@ -1,0 +1,154 @@
+<ele-breadcrumb [items]="['Sample'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="cubes"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Sample'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                        <fieldset>
+                            <legend>Basic information</legend>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input formControlName="name" placeholder="{{'Name'|trans}}"  type="text" class="form-control" autocomplete="false">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Description'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-language-input [placeholder]="'Description placeholder'" [id]="'description'" [type]="'textarea'" formControlName="description"></ele-language-input>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Input require all langs'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-language-input [id]="'demo'" [type]="'text'" formControlName="demo_required" [require]="true"></ele-language-input>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Demo input'|trans}} </label>
+                                <div class="col-md-10">
+                                    <ele-language-input [id]="'demo'" [type]="'text'" formControlName="demo"></ele-language-input>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Image'|trans}}</label>
+                                <div class="col-md-10">
+                                    <ele-upload fieldName="image" filePath="{{fd.form.get('image').value}}" extensions="jpg|jpeg|png" size="5120" ></ele-upload>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Avatar'|trans}}</label>
+                                <div class="col-md-10">
+                                    <ele-media-selector formControlName="avatar" [buttonText]="'Select avatar'" [multiple]="0" [id]="'avatar'"></ele-media-selector>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Gallery'|trans}}</label>
+                                <div class="col-md-10">
+                                    <ele-media-selector formControlName="gallery" [buttonText]="'Add image to gallery'" [multiple]="1" [id]="'gallery'"></ele-media-selector>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Content'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-editor [multipleLang]="true" [id]="'ck-content'" [require]="false" formControlName="content"></ele-editor>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Sample type'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <select formControlName="sample_type_id" class="form-control duynb">
+                                        <option *ngFor="let item of listSampleType|list:('Select'|trans)" [value]="item.key" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Active'|trans}}</label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0" /><span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Sample has many items</legend>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Sample items'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <div *ngIf="fd.form.value.sample_items.length > 0">
+                                        <div formArrayName="sample_items">
+
+                                            <div class="form-group">
+                                                <div class="col-md-6">{{'Name'|trans}} <span class="text-danger">*</span></div>
+                                                <div class="col-md-3">{{'Number'|trans}}</div>
+                                                <div class="col-md-1">{{'Active'|trans}}</div>
+                                            </div>
+
+                                            <div *ngFor="let item of fd.form.controls.sample_items.controls; let i = index;">
+                                                <div [formGroupName]="i" class="form-group">
+                                                    <div [formGroup]="fd.form.controls.sample_items.controls[i]">
+                                                        <div class="col-md-6">
+                                                            <input formControlName="name" type="text" placeholder="{{'Name'|trans}}" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input formControlName="number" type="text" placeholder="{{'Number'|trans}}" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="checkbox col-md-1">
+                                                                <label>
+                                                                    <input type="checkbox" formControlName="active" class="checkbox style-0" />
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <i class="fa fa-trash-o btn btn-danger" (click)="fd.removeItem('sample_items',i)" aria-hidden="true"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1 control-label text-left">
+                                            <i class="fa fa-plus btn btn-default" (click)="fd.addItem('sample_items')" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/sample"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

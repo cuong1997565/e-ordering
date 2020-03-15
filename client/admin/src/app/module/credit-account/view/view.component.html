@@ -1,0 +1,107 @@
+<ele-breadcrumb [items]="['Credit Account'|trans, ('View')|trans]" icon="credit-card"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                    <h2>{{'Credit Account'|trans}}</h2>
+                </header>
+                <div class="widget-body form-horizontal">
+
+                    <legend>{{'Detail'|trans}}</legend>
+                    <div *ngIf="ld" class="widget-body">
+                        <fieldset>
+                            <div id="distributor" class="form-group">
+                                <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <input type="text" value="{{ld.distributor.name}}" disabled placeholder="{{'Distributor'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" value="{{ld.amount}}" disabled placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <label class="col-md-5 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Hold Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" value="{{ld.hold_amount}}" disabled placeholder="{{'Hold Amount'|trans}}" class="form-control"/>
+                                </div>
+                                <label class="col-md-5 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Available Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" value="{{ld.available_amount}}" disabled placeholder="{{'Available Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                                <label class="col-md-5 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Credit Limit'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3">
+                                    <input type="text" value="{{ld.credit_limit}}" disabled placeholder="{{'Credit Limit'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                                <label class="col-md-5 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="h30"></div>
+                    <legend>{{'Credit Transaction' |trans}}</legend>
+
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center col-md-2">{{'Credit Transacstion Date'|trans}}</th>
+                            <th  class="text-center">{{ 'Transaction Type (DR/CR)' | trans }}</th>
+                            <th  class="text-center">{{ 'Manual Transaction' | trans }}</th>
+                            <th  class="text-center">{{ 'Reference' | trans }}</th>
+                            <th  class="text-center">{{ 'Description' | trans }}</th>
+                            <th  class="text-center">{{ 'Hold Transaction' | trans }}</th>
+                            <th  class="text-center">{{ 'Transaction Amount (VNĐ)' | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld">
+                        <tr>
+                            <td *ngIf="ld.credit_transactions.length === 0" colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld">
+                        <tr *ngFor="let item of ld.credit_transactions; let i =index">
+                            <td class="text-center">{{i+1}}</td>
+                            <td class="text-center">{{item.created_at}}</td>
+                            <td class="text-center">
+                                <span *ngIf="app.constant.TransactionTypeDR == item.transaction_type "> {{ 'DR' |trans }} </span>
+                                <span *ngIf="app.constant.TransactionTypeCR == item.transaction_type "> {{ 'CR' |trans }} </span>
+                            </td>
+                            <td *ngIf="item.is_manual === 0"  class="text-center">{{'No'}}</td>
+                            <td *ngIf="item.is_manual === 1"  class="text-center">{{'Yes'}}</td>
+                            <td class="text-center">
+                                {{item.reference}}
+                            </td>
+                            <td class="text-center">
+                                {{item.description}}
+                            </td>
+                            <td *ngIf="item.is_hold === 0"  class="text-center">{{'No'}}</td>
+                            <td *ngIf="item.is_hold === 1"  class="text-center">{{'Yes'}}</td>
+                            <td class="text-center">
+                                {{ formatNumber(item.amount) }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-actions text-left">
+                        <a class="btn btn-default" [routerLink]='["/credit-account"]' type="button">{{'Back'|trans}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

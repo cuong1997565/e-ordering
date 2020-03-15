@@ -1,0 +1,215 @@
+<ele-breadcrumb [items]="['Distributor'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="sitemap"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+            <div class="col-md-12">
+                <div class="jarviswidget">
+                    <header>
+                        <div class="jarviswidget-ctrls">
+                            <a class="button-icon form-fullscreen-btn">
+                                <i class="fa fa-expand"></i>
+                            </a>
+                        </div>
+                        <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                        <h2>{{'Distributor'|trans}}</h2>
+                    </header>
+                    <div class="widget-body">
+
+                        <legend> {{'Detail'|trans}} </legend>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="name" placeholder="{{'Name'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Email'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="email" placeholder="{{'Email'|trans}}" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Phone'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="number" formControlName="phone" placeholder="{{'Phone'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Contact Person'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="contact_person" placeholder="{{'Contact Person'|trans}}" class="form-control"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Code'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="code" *ngIf="fd.isNew; else ngCannotCode" placeholder="{{'Code'|trans}}"
+                                           class="form-control"
+                                           autocomplete="off"/>
+                                    <ng-template #ngCannotCode>
+                                        <input type="text" formControlName="code" placeholder="{{'Code'|trans}}" disabled class="form-control" autocomplete="off"/>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Tax Code'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="tax_code" *ngIf="fd.isNew; else ngCannotCode" placeholder="{{'Tax Code'|trans}}"
+                                           class="form-control"
+                                           autocomplete="off"/>
+                                    <ng-template #ngCannotCode>
+                                        <input type="text" formControlName="tax_code" placeholder="{{'Tax Code'|trans}}" disabled class="form-control"
+                                               autocomplete="off"/>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div id="province" class="form-group">
+                                <label class="col-md-2 control-label">{{'Province'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select class="form-control" formControlName="area_id" class="input-sm form-control">
+                                        <option *ngFor="let item of listArea|list:('Select'|trans)" [value]="item.key"
+                                                [selected]="item.key==data.area_id || item.key == ''">{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Address'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10 text-left">
+                                    <input type="text" formControlName="address" placeholder="{{'Address'|trans}}" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Active'|trans}}</label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0"/>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div *ngIf="permissions[app.constant.PERMISSION_ADD_PRODUCT_DISTRIBUTOR]">
+                            <legend>{{'Product Limit'|trans}}</legend>
+
+                            <fieldset>
+
+                                <div class="row">
+                                    <label class="col-md-2 control-label"> {{ 'Factory' |trans }} <span class="text-danger"> * </span></label>
+                                    <div class="col-md-3">
+                                        <select id="factory" class="form-control" (change)="Product($event)">
+                                            <option *ngFor="let item of listFactory|list:('Select Factory'|trans)"
+                                                    [value]="item.key"> {{item.value}} </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select id="product" class="form-control">
+                                            <option *ngFor="let item of listProductSelect|list:('Select Product'|trans) : 'id' : 'display_name'"
+                                                    [value]="item.key"> {{item.value}} </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-success" (click)="Add()" type="button">{{'+'|trans}}</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-2">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>{{ 'Code' | trans }}</th>
+                                                <th>{{ 'Name' | trans }}</th>
+                                                <th>{{ 'Image' | trans }}</th>
+                                                <th class="col-md-1">{{ 'Min Quantity' | trans }}</th>
+                                                <th class="col-md-1">{{ 'Max Quantity' | trans }}</th>
+                                                <th class="col-md-1">{{ 'Max Hold Age (day)' | trans }}</th>
+                                                <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngIf="arr.length === 0">
+                                                <td colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                                            </tr>
+                                            </tbody>
+                                            <tbody>
+                                            <tr *ngFor="let item of arr; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{item.name}}</td>
+                                                <td><img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{item.image}}" width="75px" height="75px"></td>
+                                                <td class="text-center">
+                                                    <input (input)="setData(i, item.product_id,'min_quantity', 'max_quantity', 'max_hold_age')" value="{{item.min_quantity}}"
+                                                           class="text-right min_quantity{{i}}" autocomplete="off" type="number" min="0">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input (input)="setData(i, item.product_id,'min_quantity', 'max_quantity', 'max_hold_age')" value="{{item.max_quantity}}"
+                                                           class="text-right max_quantity{{i}}" autocomplete="off" type="number" min="0">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input (input)="setData(i, item.product_id,'min_quantity', 'max_quantity', 'max_hold_age')" value="{{item.max_hold_age}}"
+                                                           class="text-right max_hold_age{{i}}" autocomplete="off" type="number" min="0">
+                                                </td>
+                                                <td class="text-center">
+                                                    <a (click)="deleteItem(item.product_id)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+                        <legend>{{'Credit Account' |trans}}</legend>
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="amount" disabled placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <label class="col-md-2 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Hold Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="hold_amount" disabled placeholder="{{'Hold Amount'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <label class="col-md-2 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Available Amount'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="available_amount" disabled placeholder="{{'Available Amount'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                                <label class="col-md-2 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Credit Limit'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="credit_limit" placeholder="{{'Credit Limit'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                                <label class="col-md-2 control-label text-align-left">{{'VNĐ'|trans}}</label>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-group action_box">
+                            <div class="checkbox col-md-10 col-md-offset-2">
+                                <a class="btn btn-default" type="button" (click)="redirectViewCreditAccount()" *ngIf="idCreditAccount > 0">{{'View Credit Account'|trans}}</a>
+                                <a class="btn btn-default" [routerLink]='["/distributor"]' type="button">{{'Cancel'|trans}}</a>
+                                <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

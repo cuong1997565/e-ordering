@@ -1,0 +1,97 @@
+<ele-breadcrumb [items]="['Delivery Notes'|trans, 'List'|trans]" icon="truck"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]="['/delivery-note/form']" class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_DN_ORDER]">{{'New Delivery Notes'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting" (click)="ld.sort('dn_number', $event)">{{ 'Delivery Notes Number' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('distributor_id', $event)">{{ 'Distributor' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('factory_id', $event)">{{ 'Factory' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('amount', $event)"> {{ 'Amount' | trans }} </th>
+                            <th class="sorting" (click)="ld.sort('amount_after_discount', $event)"> {{ 'Amount after Discount' }} </th>
+                            <th class="sorting" (click)="ld.sort('created_at', $event)"> {{ 'Delivery Notes Date'}} </th>
+                            <th class="sorting" (click)="ld.sort('sale_person_id', $event)"> {{ 'Sale Man'}} </th>
+                            <th class="sorting" (click)="ld.sort('note', $event)"> {{ 'Note'}} </th>
+                            <th class="sorting" (click)="ld.sort('status', $event)"> {{ 'Status'}} </th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('dn_number',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('distributor_id',$event)" class="form-control">
+                                    <option *ngFor="let item of ListDistributor |list:('Select'|trans)" [value]="item.key" [selected]="item.key==''">{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('factory_id',$event)" class="form-control">
+                                    <option *ngFor="let item of ListFactory |list:('Select'|trans)" [value]="item.key" [selected]="item.key==''">{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="hasinput"><input (input)="ld.change('amount', $event)" class="form-control" placeholder="{{'Filter'|trans}}"></th>
+                            <th class="hasinput"><input (input)="ld.change('amount_after_discount',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput"><input (input)="ld.change('created_at',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput"><input (input)="ld.change('users:name',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput"><input (input)="ld.change('note',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="hasinput"><input (input)="ld.change('status',$event)" class="form-control" placeholder="{{'Filter'|trans}}"/></th>
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="11" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ ld.result.from + i }}</td>
+                            <td>{{ item.dn_number }} </td>
+                            <td>{{ item.distributor.name }} </td>
+                            <td>{{ item.factory.name }} </td>
+                            <td> {{ item.amount | number:'1.0-2'}} </td>
+                            <td>{{item.amount_after_discount | number:'1.0-2'}}</td>
+                            <td>{{item.created_at}}</td>
+                            <td>{{ item.user ? item.user.name : ''}}</td>
+                            <td>{{item.notes?item.notes:''}}</td>
+                            <td *ngIf="item.status === app.constant.deliveryDraftStatus"> {{'DRAFT'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryConfirmStatus"> {{'CONFIRM'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryWaitingApproveWhenOver"> {{'WAITING APPROVE WHEN OVER'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryReverseStatus"> {{'REVERSE'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryApproved"> {{'APPROVED'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryReject"> {{'REJECT'}} </td>
+                            <td *ngIf="item.status === app.constant.deliveryDraftStatus"
+                                class="text-center"><a [routerLink]='["/delivery-note/form",item.id]' *ngIf="permissions[app.constant.PERMISSION_EDIT_DN_ORDER]"  title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                            <td *ngIf="item.status === app.constant.deliveryWaitingApproveWhenOver"
+                                class="text-center"><a [routerLink]='["/delivery-note/form",item.id]' *ngIf="permissions[app.constant.PERMISSION_EDIT_DN_ORDER]"  title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-puzzle-piece"></i> </a>
+                            </td>
+                            <td *ngIf="item.status === app.constant.deliveryConfirmStatus" class="text-center">
+                                <a [routerLink]='["/delivery-note/form",item.id]'  title="{{'View'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a>
+                                <a [routerLink]='["/delivery-note/reverse",item.id]' *ngIf="permissions[app.constant.PERMISSION_EDIT_DN_ORDER]"  title="{{'Reverse'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-reply"></i> </a>
+                            </td>
+                            <td *ngIf="item.status === app.constant.deliveryApproved" class="text-center">
+                                <a [routerLink]='["/delivery-note/form",item.id]' *ngIf="permissions[app.constant.PERMISSION_EDIT_DN_ORDER]" title="{{'Approve'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-check-square-o"></i> </a>
+                            </td>
+                            <td *ngIf="item.status === app.constant.deliveryReject" class="text-center">
+                                <a [routerLink]='["/delivery-note/form",item.id]' *ngIf="permissions[app.constant.PERMISSION_EDIT_DN_ORDER]"   title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a>
+                            </td>
+                            <td *ngIf="item.status === app.constant.deliveryReverseStatus" class="text-center">
+                                <a [routerLink]='["/delivery-note/reverse",item.id]'  title="{{'View Reverse'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

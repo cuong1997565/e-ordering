@@ -1,0 +1,42 @@
+<!-- sample static post -->
+<div *ngIf="app.staticPost[app.constant.POST_CODE1]">
+    <h2><a [routerLink]="['post/'+(app.staticPost[app.constant.POST_CODE1].slug|trans)]">{{app.staticPost[app.constant.POST_CODE1].title|trans}}</a></h2>
+
+    <div>
+        <p>Image: <img src="{{app.getImgPath(app.staticPost[app.constant.POST_CODE1].image)}}" /></p>
+        <p>Description: {{app.staticPost[app.constant.POST_CODE1].description|trans}}</p>
+    </div>
+</div>
+<!-- sample static post -->
+
+<hr />
+
+<!-- sample static list -->
+<div *ngIf="app.staticList[app.constant.CATEGORY_CODE1]">
+    <h2>{{app.staticList[app.constant.CATEGORY_CODE1].category.name|trans}}</h2>
+
+    <div *ngFor="let post of app.staticList[app.constant.CATEGORY_CODE1].posts">
+        <p>Link: <a [routerLink]="['post/'+(post.slug|trans)]">{{post.title|trans}}</a></p>
+        <p>Image: <img src="{{app.getImgPath(post.image)}}" /></p>
+        <p>Date: {{post.created_at|date:app.constant.DATE_FORMAT}}</p>
+    </div>
+</div>
+<!-- sample static list-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

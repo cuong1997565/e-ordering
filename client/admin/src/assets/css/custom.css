@@ -1,0 +1,171 @@
+#mobile-profile-img {
+    display: block !important;
+}
+table .btn {
+    padding: 2px 6px 2px;
+    margin: 0 2px;
+}
+.onoffswitch {
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+.disabledAction,
+table.table-bordered tr th.sorting a {
+    pointer-events: none;
+}
+table.table-bordered tr th.sorting {
+    cursor: pointer;
+    background: url('../img/icons/sorting.png') no-repeat center right #B89463 !important;
+    position: relative;
+}
+table.table-bordered tr th.sorting.sorting_desc:before,
+table.table-bordered tr th.sorting.sorting_asc:before {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    border: solid 5px transparent;
+    border-bottom-color: #fff;
+    content: '';
+}
+table.table-bordered tr th.sorting.sorting_desc:before {
+    border-bottom-color: transparent;
+    border-top-color: #fff;
+    top: 15px;
+}
+table.table-bordered tr th.sorting.sorting_desc,
+table.table-bordered tr th.sorting.sorting_asc {
+    background-image: none !important;
+}
+table.table-bordered tr:first-child th a {
+    color: #fff;
+}
+table.table-bordered tr:first-child th {
+    background: #B89463;
+    color: #fff;
+}
+table .form-control {
+    height: 29px;
+    line-height: 29px;
+    padding: 3px 12px;
+}
+a {
+    cursor: pointer;
+}
+.no-padding>.table-bordered,
+.no-padding>.table-responsive>.table-bordered {
+    border-bottom: solid 1px #ddd !important;
+    border-top: solid 1px #ddd !important;
+    margin-bottom: 10px !important;
+}
+#content form,
+#content table {
+    margin-top: 10px;
+}
+#content {
+    background: #fff;
+}
+.action_box a,
+.action_box button {
+    margin: 0 3px;
+}
+#mobile-profile-img i.fa{
+    margin-right: 5px;
+}
+.btn.btn-ribbon {
+    pointer-events: none;
+    cursor: default;
+}
+
+.dropdown-menu li p
+{
+    padding: 10px 10px 0px 10px;
+}
+div.alertCustom {
+    margin-bottom: 0;
+}
+#jarviswidget-fullscreen-mode {
+    background: #f1f1f1;
+    overflow-y: scroll;
+}
+.form-fullscreen-btn .fa {
+    color: #fff;
+}
+.onoffswitch-inner:before {
+    background-color: #B89463
+}
+.btn-success,
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #967140;
+    border-color: #7A5522;
+}
+.onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch:before,
+.pagination>li>a, .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    color: #B89463;
+}
+.jarviswidget>header {
+    border-color: #967140!important;
+    background: #B89463;
+    color: #fff;
+}
+
+.sort_parent .child_item {
+    display: none;
+}
+.ui-sortable-helper {
+    display: table;
+    width: 100% !important;
+}
+
+div.h30 {
+    height:30px;
+    clear:both;
+}
+
+#logo-group>span#logo{
+    margin-top: 1px;
+}
+
+#logo-group #logo img{
+    width:auto;
+    height:48px;
+    padding-left: 10px;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label
+{
+    border-color: #7A5522;
+}
+
+.btn-success.active, .btn-success:active, .btn-success:hover, .open>.dropdown-toggle.btn-success
+{
+    color: #fff;
+    background-color: #B89463;
+    border-color: #B89463;
+}
+
+.btn-success.active.focus, .btn-success.active:focus, .btn-success.active:hover, .btn-success:active.focus, .btn-success:active:focus, .btn-success:active:hover, .open>.dropdown-toggle.btn-success.focus, .open>.dropdown-toggle.btn-success:focus, .open>.dropdown-toggle.btn-success:hover {
+    color: #fff;
+    background-color: #B89463;
+    border-color: #B89463;
+}
+
+.btn-success.focus, .btn-success:focus
+{
+    color: #fff;
+    background-color: #B89463;
+    border-color: #B89463;
+}
+.btn-success.disabled.focus, .btn-success.disabled:focus, .btn-success.disabled:hover, .btn-success[disabled].focus, .btn-success[disabled]:focus, .btn-success[disabled]:hover, fieldset[disabled] .btn-success.focus, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success:hover {
+    background-color: #B89463;
+    border-color: #B89463;
+}
+
+#extr-page #header #logo {
+    margin-top: 10px;
+    margin-left: 0;
+}
+
+#extr-page #header #logo img {
+    width: auto;
+}
+

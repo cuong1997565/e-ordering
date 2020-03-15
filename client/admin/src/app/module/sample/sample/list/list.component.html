@@ -1,0 +1,56 @@
+<ele-breadcrumb [items]="['Sample'|trans, 'List'|trans]" icon="cube"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/sample/form"]' class="btn btn-default btn-success pull-right">{{'New sample'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover sortTable" [attr.data-table]="'samples'">
+                        <thead>
+                            <tr>
+                                <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'Name'|trans}}</a></th>
+                                <th class="sorting" (click)="ld.sort('description',$event)"><a>{{'Description'|trans}}</a></th>
+                                <th class="sorting" (click)="ld.sort('sample_type_id',$event)"><a>{{'Sample type'|trans}}</a></th>
+                                <th class="sorting" (click)="ld.sort('active',$event)"><a>{{'Active'|trans}}</a></th>
+                                <th class="text-center col-md-2">{{'Actions'|trans}}</th>
+                            </tr>
+                            <tr>
+                                <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text" /></th>
+                                <th class="hasinput"><input (input)="ld.change('description',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text" /></th>
+                                <th class="hasinput"><input (input)="ld.change('sample_types:name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text" /></th>
+                                <th class="hasinput">
+                                    <select (change)="ld.change('active',$event)" class="form-control">
+                                        <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </th>
+                                <th class="text-center col-md-2">
+                                    <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="5" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data" [attr.data-id]="item.id">
+                            <td>{{item.name}}</td>
+                            <td>{{item.description | trans}}</td>
+                            <td>{{ (item.sample_type) ? item.sample_type.name:''}}</td>
+                            <td class="text-center col-md-2"><ele-active active="{{item.active}}" model="Sample" id="{{item.id}}"></ele-active></td>
+                            <td class="text-center col-md-2">
+                                <a [routerLink]='["/sample/form",item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                                <a (click)="ld.delete('samples/delete',item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

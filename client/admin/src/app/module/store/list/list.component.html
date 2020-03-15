@@ -1,0 +1,59 @@
+<ele-breadcrumb [items]="['Store'|trans, 'List'|trans]" icon="th"></ele-breadcrumb>
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/store/form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_STORE]">{{'New store'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting" (click)="ld.sort('code', $event)"> {{ 'Store Code' |trans }} </th>
+                            <th class="sorting" (click)="ld.sort('name', $event)"> {{ 'Store Name' |trans }} </th>
+                            <th class="sorting" (click)="ld.sort('factories:name', $event)"> {{ 'Factory Name' |trans }} </th>
+                            <th class="sorting col-md-1" (click)="ld.sort('active', $event)">{{ 'Active' | trans }}</th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('code', $event)" class="form-control" placeholder="{{ 'Filter' | trans }}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('name', $event)" class="form-control" placeholder="{{ 'Filter' | trans }}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('factories:name', $event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('active',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)" title="{{'Reset|trams'}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="9" class="text-center" >{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ld.result.from + i }}</td>
+                            <td> {{ item.code }} </td>
+                            <td> {{ item.name }} </td>
+                            <td> <div *ngIf="item.factory"> {{ item.factory.name }} </div> </td>
+                            <td class="text-center"><ele-active active="{{item.active}}" model="Store" id="{{item.id}}"></ele-active></td>
+                            <td class="text-center" *ngIf="app.curUser.group != app.constant.GROUP_ADMIN">
+                            </td>
+                            <td class="text-center" *ngIf="app.curUser.group == app.constant.GROUP_ADMIN">
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_STORE]" [routerLink]='["/store/form",item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>

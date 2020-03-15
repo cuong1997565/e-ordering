@@ -1,0 +1,85 @@
+<ele-breadcrumb [items]="['Uom Multiple'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="user-md"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Uom Multiple'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal"  (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Uom '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="uom_id">
+                                        <option *ngFor="let item of listUoms|list:('Select uoms'|trans)" [value]="item.key"> {{ item.value }} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Code '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="code" placeholder="{{'Code'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="name" placeholder="{{'Name'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Display Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="display_name" placeholder="{{'Display name'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Description'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-editor  [id]="'ck-description'" formControlName="description"></ele-editor>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Conversion Rate'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="conversion_rate" placeholder="{{'Conversion Rate'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Is Rounded'|trans}} <span class="text-danger">*</span></label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="isrounded" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Round Priority'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="round_priority" placeholder="{{'Round Priority'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/uom-multiple"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

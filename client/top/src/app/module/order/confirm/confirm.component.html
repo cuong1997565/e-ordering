@@ -1,0 +1,85 @@
+<div id="main" class="main order-page" *ngIf="isDetail === true; else Detail;">
+    <form class="container cd-form">
+        <div class="block">
+            <h2 class="block__title orange__title">Order items</h2>
+            <div class="table-list">
+                <table class="table-list__table table-mb__full-1">
+                    <tbody>
+                    <tr>
+                        <th>Code</th>
+                        <th class="table-list__table--with-img">Image</th>
+                        <th>Customer Note</th>
+                        <th>Sale Factory Note</th>
+                        <th>Quantity </th>
+                        <th> Uom </th>
+                        <th style="min-width: 150px"> Quantity Stock</th>
+                        <th> Status </th>
+                    </tr>
+
+                    <tr *ngIf="!iscurrentProducts || iscurrentProducts.length == 0">
+                        <td class="center" colspan="10" rowspan="10">
+                            {{'No data result' | trans}}
+                        </td>
+                    </tr>
+                    <tr *ngFor="let selectedProduct of iscurrentProducts|keyvalue; let i = index">
+                        <td class="center table__code">
+                            {{ selectedProduct.value.code }}
+                        </td>
+                        <td class="table-list__img">
+                            <img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{ this.isListProductsStore[selectedProduct.value.productId].image }}"
+                                 alt="{{ slideString(this.isListProductsStore[selectedProduct.value.productId].image) }}" />
+                        </td>
+                        <td>
+                            {{selectedProduct.value.userNote || ''}}
+                        </td>
+                        <td>
+                            {{ selectedProduct.value.saleNote || '' }}
+                        </td>
+                        <td class="text-center">
+                            <p> {{selectedProduct.value.amount}} </p>
+                            <p id="error-amount-{{i}}" style="color: red; padding-top: 10px"></p>
+                        </td>
+                        <td class="text-center">
+                            {{ selectedProduct.value.uomName }}
+                        </td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 1" class="center"><span class="status_cart status_stocking">Còn hàng</span></td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 0" class="center"><span class="status_cart status_not_available_stocking">Hết hàng</span></td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 2" class="center"><span class="status_cart status_not_available_stocking">Lỗi hệ thống</span></td>
+                        <td *ngIf="!selectedProduct.value.checked_amount" class="center"><img src="assets/images/loading.gif" width="50px" height="50px" alt=""></td>
+                        <td *ngIf="selectedProduct.value.statusItem == app.constant.WAITING_FOR_DRAF_ITEM_ORDER">  {{ 'DRAF' | trans }} </td>
+                        <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.Accept_ITEM_ORDER">  {{ 'ACCEPT' | trans }} </td>
+                        <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.REJECT_ITEM_ORDER">  {{ 'REJECT' | trans }} </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+
+            <div class="row form-note" style="padding-top: 20px;" *ngIf="iscurrentProducts.length > 0">
+                <div  class="col-12">
+                    <label class="search__form__label">Note:</label>
+                    <span> {{ note }} </span>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;" *ngIf="iscurrentProducts.length > 0">
+                <label class="search__form__label">Deliver date:</label>
+                <div class="row form-calendar-double">
+                    <div class="col-3"><input type="text" class="input-text input-text__calendar datepicker from_date" id="from_date1"  autocomplete="off"></div>
+                </div>
+                <div *ngIf="isDate" style="color: red">Deliver date is invalid</div>
+            </div>
+
+            <div class="block__bottom">
+                <button class="button_black" *ngIf="isConfirm === true; else redirectView" (click)="backDetail()">Back</button>
+                <ng-template #redirectView>
+                    <button class="button_black" (click)="backView(currentOrderId)">Back</button>
+                </ng-template>
+                <button class="button_black" [disabled]="isDisabledSave" (click)="saveDraftOrder()">Save</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<ng-template #Detail>
+    <app-detail-order *ngIf="currentOrderId !== null;"></app-detail-order>
+    <app-add *ngIf="currentOrderId === null"></app-add>
+</ng-template>

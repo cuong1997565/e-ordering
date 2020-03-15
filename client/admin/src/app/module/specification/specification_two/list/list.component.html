@@ -1,0 +1,44 @@
+<ele-breadcrumb *ngIf="specification" [items]="['Specification'|trans, {url: '/specification', label: specification.name}, 'Specification_Two'|trans, 'List'|trans]" icon="fa fa-map"></ele-breadcrumb>
+<div id="content" *ngIf="specification">
+    <section id="widget-grid">
+        <a [routerLink]='["/specification_two", specification.id, "form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_SPECIFICATION]">{{'Add Specification Two'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover sortTable" [attr.data-table]="'districts'">
+                        <thead>
+                        <tr>
+                            <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'Name'|trans}}</a></th>
+                            <th class="text-center col-md-2">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text"/></th>
+                            <th class="text-center col-md-2">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="5" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data" [attr.data-id]="item.id">
+                            <td>
+                                {{item.name}}
+                            </td>
+
+                            <td class="text-center col-md-2">
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_SPECIFICATION]" [routerLink]='["/specification_two", specification.id, "form", item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                                <a *ngIf="app.curUser.group == app.constant.GROUP_ADMIN && permissions[app.constant.PERMISSION_DELETE_SPECIFICATION]" (click)="del(specification.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

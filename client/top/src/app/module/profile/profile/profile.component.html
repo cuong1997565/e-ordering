@@ -1,0 +1,82 @@
+<div id="main" class="main main__none-cart ad-home">
+    <div class="container block">
+        <h2 class="block__title orange__title"> Profile </h2>
+        <div class="row justify-content-center custom-info-page">
+            <div class="col-md-9 col-sm-10">
+                <form [formGroup]="fd.form" class="form-horizontal">
+                    <table *ngIf="ld" class="list-info">
+                        <tr>
+                            <th>{{'Username'|trans}} <span class="text-danger">*</span></th>
+                            <td>{{ld.username}}</td>
+                        </tr>
+                        <tr>
+                            <th>{{'Name'|trans}} <span class="text-danger">*</span></th>
+                            <td><input type="text" formControlName="name" placeholder="{{'Name'|trans}}"
+                                       autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <th>{{'Email'|trans}} <span class="text-danger">*</span></th>
+                            <td><input type="text" formControlName="email" placeholder="{{'Email'|trans}}"
+                                       autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <th>{{'Phone'|trans}} <span class="text-danger">*</span></th>
+                            <td><input type="text" formControlName="telephone" placeholder="{{'Phone'|trans}}"
+                                       autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <th>{{'Password'|trans}} <span class="text-danger">*</span></th>
+                            <td><input type="password" formControlName="password" placeholder="{{'Password'|trans}}"
+                                       autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <th>{{'Password confirmation'|trans}} <span class="text-danger">*</span></th>
+                            <td><input type="password" formControlName="password_confirmation"
+                                       placeholder="{{'Password confirmation'|trans}}" autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <th>{{'Distributor'|trans}} <span class="text-danger">*</span></th>
+                            <td>{{ld.distributor.name}}</td>
+                        </tr>
+                        <tr>
+                            <th>{{'Role'|trans}} <span class="text-danger">*</span></th>
+                            <td>
+                                <span *ngIf="ld.is_admin === app.constant.GROUP_ADMIN">{{'ACCOUNT HOLDER'}}</span>
+                                <span *ngIf="ld.is_admin === app.constant.ORDER_VIEWER">{{'ORDER VIEWER'}}</span>
+                                <span *ngIf="ld.is_admin === app.constant.ORDER_MANAGER">{{'ORDER MANAGER'}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="block__bottom row justify-content-center">
+                        <div class="col-sm-3 col-6 right">
+                            <button [routerLink]="['/staff/list']" class="button_black button_black--double">Back</button>
+                        </div>
+                        <div class="col-sm-3 col-6 left">
+                            <button (click)="save()" class="button_black button_black--double">Submit</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal"><img src="assets/images/icon-delete.png" alt="">
+            </button>
+            <!-- Modal body -->
+            <div class="alert-modal">
+                <div class="alert-modal__text">
+                    Profile updated successfully! Please check your email !
+                </div>
+                <div class="alert-modal__button">
+                    <button (click)="hidenModal()" class="button_black">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

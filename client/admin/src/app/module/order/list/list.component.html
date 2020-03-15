@@ -1,0 +1,83 @@
+<ele-breadcrumb [items]="['Order'|trans, 'List'|trans]" icon="copy"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting" (click)="ld.sort('po_number', $event)">{{ 'PO Number' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('factory_id', $event)">{{ 'Factory' | trans }}</th>
+                            <th class="sorting" (click)="ld.sort('creator_id', $event)"> {{ 'Customer' | trans }} </th>
+                            <th class="sorting col-md-1" (click)="ld.sort('status', $event)"> {{ 'Status' }} </th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('po_number', $event)" class="form-control" placeholder="{{'Filter'|trans}}"></th>
+                            <th class="hasinput"><input (input)="ld.change('factories:name', $event)" class="form-control" placeholder="{{'Filter'|trans}}"></th>
+                            <th class="hasinput"><input (input)="ld.change('customers:name', $event)" class="form-control" placeholder="{{'Filter'|trans}}"></th>
+                            <th>
+                                <select (change)="ld.change('status',$event)" class="form-control">
+                                    <option *ngFor="let item of app.constant.Status|list:('Select'|trans)" [value]="item.key||''"
+                                            [selected]="item.key==''">{{item.value|trans}}</option>
+                                </select>
+                            </th>
+
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ ld.result.from + i }}</td>
+                            <td>{{ item.po_number }} </td>
+                            <td><span *ngIf="item.factory"> {{ item.factory.name }} </span></td>
+                            <td><span *ngIf="item.customer">  {{item.customer.name}} </span></td>
+                            <td *ngIf="item.status === app.constant.WAITING_FOR_CONFIRM"> {{'Waiting for confirm'}} </td>
+                            <td *ngIf="item.status === app.constant.REVIEWING"> {{'Reviewing'}} </td>
+                            <td *ngIf="item.status === app.constant.CLOSED"> {{'Closed'}} </td>
+                            <td *ngIf="item.status === app.constant.REJECTED_BY_SALES"> {{'Rejected by Sales'}}</td>
+                            <td *ngIf="item.status === app.constant.CANCELLED_BY_CUSTOMER"> {{'Cancelled'}} </td>
+                            <td *ngIf="item.status === app.constant.SALES_ACCEPTED"> {{' Accepted'  }} </td>
+                            <td *ngIf="item.status === app.constant.DELIVERING"> {{ 'Delivering' }} </td>
+                            <td *ngIf="item.status === app.constant.SUBMITED"> {{' Submited'}} </td>
+                            <td *ngIf="item.status === 0"> {{''}} </td>
+                            <td *ngIf="item.status === 9"> {{''}} </td>
+                            <td *ngIf="item.status === null"> {{''}} </td>
+
+                                <!--<a *ngIf="item.status === app.constant.WAITING_FOR_CONFIRM" (click)="del(item.id, item)" title="{{'Delete'|trans}}"  class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.PROCESSING"  (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.COMPLETED" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.REJECTED_BY_SALES" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.CANCELLED_BY_CUSTOMER" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.SALES_APPROVED" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.DELIVERING" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === app.constant.CUSTOMER_SUBMITED" (click)="del(item.id, item)" title="{{'Delete'|trans}}" disabled class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === 0" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === 9" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+<!--                                <a *ngIf="item.status === null" (click)="del(item.id, item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>-->
+                            <td class="text-center">
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_ORDER]" [routerLink]='["/order/detail",item.id]' title="{{'Edit'|trans}}"
+                                   class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                                <a title="{{'SO Detail'|trans}}" class="btn btn-sm btn-default"
+                                   (click)="directSo(item.id)" *ngIf="app.constant.SALES_ACCEPTED == item.status"><i class="fa fa-chevron-circle-right"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

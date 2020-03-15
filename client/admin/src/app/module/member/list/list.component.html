@@ -1,0 +1,78 @@
+<ele-breadcrumb [items]="['Member'|trans, 'List'|trans]" icon="user"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/member/form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_MEMBER]">{{'New Account Holder'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th><a>{{'ID'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('username',$event)"><a>{{'Username'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'Name'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('email',$event)"><a>{{'Email'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('telephone',$event)"><a>{{'Phone'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('distributor_id',$event)"><a>{{'Distributor'|trans}}</a></th>
+                            <th><a>{{'Role'|trans}}</a></th>
+                            <th class="sorting col-md-1" (click)="ld.sort('active',$event)"><a>{{'Active'|trans}}</a></th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th class="hasinput"></th>
+                            <th class="hasinput"><input (input)="ld.change('username',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('email',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('telephone',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('distributor_id',$event)" class="form-control" >
+                                    <option  *ngFor="let item of ListDistributor |list:('Select'|trans)" [value]="item.key"  [selected]="item.key==''">{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="hasinput">
+                            </th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('active',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)"  title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="9" class="text-center">{{'No data admin result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data let i = index;">
+                            <td>
+                                {{ld.result.from + i }}
+                            </td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.telephone}}</td>
+                            <td><div *ngIf="item.distributor">{{item.distributor.name}}</div></td>
+                            <td>{{app.constant.User.member[item.is_admin] }}</td>
+                            <td class="text-center"><ele-active active="{{item.active}}" model="Customer" id="{{item.id}}"></ele-active></td>
+                            <td class="text-center" *ngIf="app.curUser.group != app.constant.GROUP_ADMIN">
+
+                            </td>
+                            <td class="text-center" *ngIf="app.curUser.group == app.constant.GROUP_ADMIN">
+                                <a *ngIf="permissions[app.constant.PERMISSION_VIEW_MEMBER]" [routerLink]='["/member/detail",item.id]' title="{{'View'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> </a>
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_MEMBER]" [routerLink]='["/member/form",item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

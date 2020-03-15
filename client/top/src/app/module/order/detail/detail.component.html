@@ -1,0 +1,280 @@
+<app-confirm *ngIf="isConfirm;else FormAddAndUpdateOrder;"
+             [currentProducts] = "currentProductsSelected" [listProductsStore]="listProductsFromStore"
+             [isNote]="note" [isFactoryId]="data.factory_id"
+             [isType]="type" [isAddress]="address"
+
+></app-confirm>
+<ng-template #FormAddAndUpdateOrder>
+    <div id="main" class="main cd-form">
+        <div>
+            <section class="search">
+                <div class="container">
+                    <form action="" class="search__form" [formGroup]="fd.form" >
+                        <div class="row search__first-line">
+                            <div class="col-sm-4">
+                                <label class="search__form__label" for="1">Select Factory:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <ele-select-dropdown [options]="this.condition.factories"
+                                                     [defaultLabel]="'--- Select Factory ---'"
+                                                     (selectChange)="changefactory($event)"
+                                                     [selectedId]="data.factory_id"
+                                                     [disabled] = "isDisabled"
+                                ></ele-select-dropdown>
+                                <p *ngIf="isFactory" style="color : red">Please select a factory</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="search__form__label" for="1">Feature Item:</label>
+                                <ele-select-dropdown [options]="this.condition.featureitem"
+                                                     [defaultLabel]="'--- Select Feature Item  ---'"
+                                                     (selectChange)="changeFeatureitem($event)"
+                                                     [selectedId]="data.featureitem_id" ></ele-select-dropdown>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="search__form__label" for="2">Category:</label>
+                                <select class="select-cus select-category">
+                                    <option selected>Select category</option>
+                                    <option *ngFor="let item of parentCategory" [value]="item.id"> {{item.name}} </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="search__form__label" for="3">Product code:</label>
+                                <input type="text" (change)="changeCode($event)" placeholder="text here" class="input-text" formControlName="code">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 search__button">
+                                <input type="submit" class="button_black" (click)="filter()" value="Search">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <div class="container">
+                <div class="block">
+                    <form class="block cd-form padButton-30">
+                        <h2 class="block__title orange__title">Order items</h2>
+                        <div class="table-list table-cart">
+                            <table class="table-list__table table-mb__full-1">
+                                <tbody>
+                                <tr>
+                                    <th class="table-list__table--with-check">Code</th>
+                                    <th class="table-list__table--with-img">Image</th>
+                                    <th style="width: 150px">Customer Note</th>
+                                    <th>Sale Factory Note</th>
+                                    <th>Quantity </th>
+                                    <th>Uom</th>
+                                    <th> Quantity Stock </th>
+                                    <th> Status </th>
+                                    <th class="table-list__table--with-total">Action</th>
+                                </tr>
+                                <tr *ngIf="!currentProductsSelected || currentProductsSelected.length == 0">
+
+                                    <td colspan="10" rowspan="10" class="center">
+                                        {{'No data result' | trans}}
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let selectedProduct of currentProductsSelected|keyvalue; let i = index">
+                                    <td class="center table__code">
+                                        {{ selectedProduct.value.code }}
+                                    </td>
+                                    <td class="table-list__img">
+                                        <img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{listProductsFromStore[selectedProduct.value.productId].image}}"  alt="{{slideString(listProductsFromStore[selectedProduct.value.productId].image)}}">
+                                        <!--                                    <span class="tooltipimg"> {{ this.listProductsFromStore[selectedProduct.value.productId].image }} </span>-->
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control" style="font-size: 13px;" [value]="selectedProduct.value.userNote || ''"  (input)="noteProductToOrder(selectedProduct.value.code, $event.target.value)"></textarea>
+                                    </td>
+                                    <td>
+                                        {{ selectedProduct.value.saleNote || '' }}
+                                    </td>
+                                    <td class="center">
+                                        <div class="product-list__count">
+                                            <div class="product-list__count--icon" (click)="incrementAmount(selectedProduct.value.code, selectedProduct.value.amount)"><img src="assets/images/icon_count-add.png" alt=""> </div>
+                                            <div class="product-list__count--amount"><input type="text" (input)="changeAmountProduct(selectedProduct.value.code, $event.target.value)" #amount  [value]="selectedProduct.value.amount"></div>
+                                            <div class="product-list__count--icon" (click)="decrementAmount(selectedProduct.value.code, selectedProduct.value.amount)"><img src="assets/images/icon_count-subtract.png" alt=""> </div>
+                                        </div>
+                                        <div id="error-amount-{{i}}" style="padding-top: 10px; color: red"></div>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ selectedProduct.value.uomName || '' }}
+                                    </td>
+                                    <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 1" class="center"><span class="status_cart status_stocking">Còn hàng</span></td>
+                                    <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 0" class="center"><span class="status_cart status_not_available_stocking">Hết hàng</span></td>
+                                    <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 2" class="center"><span class="status_cart status_not_available_stocking">Lỗi hệ thống</span></td>
+                                    <td *ngIf="!selectedProduct.value.checked_amount" class="center"><img src="assets/images/loading.gif" width="50px" height="50px" alt=""></td>
+                                    <td *ngIf="selectedProduct.value.statusItem == app.constant.WAITING_FOR_DRAF_ITEM_ORDER">  {{ ' DRAFT ' | trans }} </td>
+                                    <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.Accept_ITEM_ORDER">  {{ 'ACCEPT' | trans }} </td>
+                                    <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.REJECT_ITEM_ORDER">  {{ 'REJECT' | trans }} </td>
+                                    <td class="center"><button class="btn_low button_black-bor" (click)="removeSelectedProduct(selectedProduct.value.code)">Xóa</button></td>
+                                </tr>
+                                </tbody></table>
+                        </div>
+                        <div style="padding-top: 20px;" *ngIf="currentProductsSelected.length > 0">
+                            <label class="search__form__label">Note:</label>
+                            <div class="row form-note">
+                                <div class="col-12"><input type="text" class="input-text" name="note" [value]="note"  autocomplete="off"  (change)="changeInputNote($event)"></div>
+                            </div>
+                            <label class="search__form__label">Address:</label>
+                            <div class="row form-address">
+                                <div class="col-12"><input type="text" class="input-text" name="address" [value]="address"  autocomplete="off"  (change)="changeInputAddress($event)"></div>
+                            </div>
+                        </div>
+
+                        <div class="block__bottom">
+                            <button class="button_black" (click)="cancelOrder()" >Cancel</button>
+                            <button class="button_black" [disabled]="isDisabledSubmit" [ngStyle]="{'cursor': isDisabledSubmit ? 'not-allowed' : 'pointer'}" (click)="submitConfirm()">Submit</button>
+                            <button class="button_black" [disabled]="isDisabledSave" [ngStyle]="{'cursor': data.factory_id == '' ? 'not-allowed' : 'pointer'}" (click)="saveDraftOrder()">Save</button>
+                        </div>
+                    </form>
+                    <div class="row paging-section" style="margin-bottom: 10px;">
+                        <div class="col-md-3 col-sm-4 cd-form paging-section__right">
+                        </div>
+                        <div class="col-md-9 col-sm-7 paging-section--left" *ngIf="listProduct.result && data.factory_id !== '' ">
+                            <div *ngIf="listProduct.result.total > 0 || keepVisionPaginate">
+                                <ele-paginator *ngIf="listProduct || keepVisionPaginate" (clicking)="onChangePaginate()"  currentPage="{{listProduct.result.current_page}}" totalPages="{{listProduct.result.last_page}}" [scroll] = "false"></ele-paginator>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf="loadingSpinner === true">
+                            <div class="spinner bigspinner" #signin_loading style="margin-top: 70px">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" *ngIf="listProduct.length == 0 && loading === false">
+                            <p class="text-center">{{'No data result'|trans}} </p>
+                        </div>
+                        <div class="col-sm-12" *ngIf="listProduct.result && data.factory_id !== '' && loading === false">
+                            <div *ngIf="listProduct.result.total === 0">
+                                <p class="text-center"> {{'No data result'|trans}} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" [ngStyle]="{'opacity': loading ? '0.4' : '1'}" *ngIf="listProduct.result && data.factory_id !== ''" >
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6" *ngFor="let item of listProduct.result.data; let i = index">
+                            <div class="product-list" data-toggle="modal" data-target="#myModal" (click)="getDetalProduct(item.id, data.factory_id);">
+                                <div class="product-list__img">
+                                    <img  src="{{app.constant.FILE_UPLOAD_IMAGE}}{{item.image}}" alt="{{ item.image }}}" >
+                                </div>
+                                <div class="product-list__item">
+                                    <span class="product-list__name">Code</span>
+                                    <span class="product-list__value style-list-product tooltips"> {{ slideString(item.code) }} <span class="tooltiptext"> {{ item.code }} </span> </span>
+                                </div>
+                                <div class="product-list__item">
+                                    <span class="product-list__name">Category</span>
+                                    <span class="product-list__value orange-color style-list-product tooltips" *ngIf="item.category_name"> {{ slideString(item.category_name) }}
+                                        <span class="tooltiptext"> {{ item.category_name }} </span>
+                            </span>
+                                </div>
+                                <div class="product-list__item">
+                                    <span class="product-list__name">Name</span>
+                                    <span class="product-list__value style-list-product tooltips"> {{ slideString(item.display_name) }} <span class="tooltiptext"> {{ item.display_name }} </span> </span>
+                                </div>
+                                <button class="product-list__button button_black">Detail</button>
+                            </div>
+                        </div>
+
+                        <div class="modal" id="myModal" *ngIf="productDetail">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <button type="button" class="close" data-dismiss="modal"></button>
+                                    <!-- Modal body -->
+                                    <div class="product-list product-lis__modal">
+                                        <div class="product-list__img">
+                                            <img class="img-detail" src="{{app.constant.FILE_UPLOAD_IMAGE}}{{productDetail.image}}"  alt="{{productDetail.image}}">
+                                        </div>
+                                        <div class="product-list__inner">
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Code</span>
+                                                <span class="product-list__value"> {{ productDetail.code }} </span>
+                                            </div>
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Name</span>
+                                                <span class="product-list__value"> {{ productDetail.display_name }} </span>
+                                            </div>
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Category</span>
+                                                <span class="product-list__value"> {{ productDetail.category_name }} </span>
+                                            </div>
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Factory</span>
+                                                <span class="product-list__value"> {{ productDetail.factory_name }} </span>
+                                            </div>
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Store</span>
+                                                <span class="product-list__value"> {{ productDetail.store_name }} </span>
+                                            </div>
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Quantily</span>
+                                                <span class="product-list__value">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" style="font-size: 14px" [(ngModel)]="inputAmount" name="quantily">
+                                            </div>
+                                            <div *ngIf="isInputAmount" style="color: red">Quantity field is invalid.</div>
+                                        </span>
+                                            </div>
+
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Grade</span>
+                                                <span class="product-list__value">
+                                            <div class="form-group  select-custom">
+                                                  <select class="form-control"  [(ngModel)]="inputGrade" name="grade">
+                                                      <option *ngFor="let item of dataListGrade|list:('Select grade'|trans)" [value]="item.key"> {{ item.value }} </option>
+                                                  </select>
+                                            </div>
+                                            <div *ngIf="isInputGrade" style="color: red">Please select a grade</div>
+                                        </span>
+                                            </div>
+
+                                            <div class="product-list__item">
+                                                <span class="product-list__name">Uom</span>
+                                                <span class="product-list__value">
+                                            <div class="form-group  select-custom">
+                                                  <select class="form-control"  [(ngModel)]="inputUom" name="attribute">
+                                                      <option *ngFor="let item of dataListUom|list:('Select uom'|trans)" [value]="item.key"> {{ item.value }} </option>
+                                                  </select>
+                                            </div>
+                                            <div *ngIf="isInputUom" style="color: red">Please select a uom</div>
+                                        </span>
+                                            </div>
+
+                                            <div class="product-list__item" *ngFor="let item of dataListAttribute; let i = index">
+                                                <span class="product-list__name"> {{ item.name }} </span>
+                                                <span class="product-list__value">
+                                            <div class="form-group  select-custom" *ngIf="item.type == app.constant.Attributes_Type_List">
+                                                  <select class="form-control" name="attribute"   (input)="getValueAttribute($event, i)">
+                                                      <option *ngFor="let listattribute of item.attributelist|list:('Select attribute'|trans) :'id':
+                                                      'value'" [value]="listattribute.key">
+                                                          {{ listattribute.value }} </option>
+                                                  </select>
+                                                 <div style="color: red" class="error-attribute-{{i}}"></div>
+                                            </div>
+                                            <div class="form-group" *ngIf="item.type == app.constant.Attributes_Type_Number" (input)="getValueAttribute($event, i)">
+                                                <input type="number" class="form-control"  style="font-size: 14px" name="color">
+                                                 <div style="color: red" class="error-attribute-{{i}}"></div>
+                                            </div>
+                                             <div class="form-group" *ngIf="item.type == app.constant.Attributes_Type_String" (input)="getValueAttribute($event, i)">
+                                                <input type="text" class="form-control"  style="font-size: 14px" name="color">
+                                                  <div style="color: red" class="error-attribute-{{i}}"></div>
+                                            </div>
+                                        </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="product-list__alert" style="cursor: pointer"  (click)="onSelectProduct(productDetail)"><a>Add to cart </a> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

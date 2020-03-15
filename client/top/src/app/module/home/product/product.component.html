@@ -1,0 +1,149 @@
+<div id="main" class="main cd-form">
+        <section class="search">
+            <div class="container">
+                <form action="" class="search__form" [formGroup]="fd.form" >
+                    <div class="row search__first-line">
+                        <div class="col-sm-4">
+                            <label class="search__form__label" for="1">Select Factory:</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <ele-select-dropdown [options]="this.condition.factories"
+                                                     [defaultLabel]="'--- Select Factory ---'"
+                                                     (selectChange)="changefactory($event)"
+                                                     [selectedId]="data.factory_id"
+                                ></ele-select-dropdown>
+                            <p *ngIf="isFactory" style="color : red">Please select a factory</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="search__form__label" for="1">Feature Item:</label>
+                            <ele-select-dropdown [options]="this.condition.featureitem"
+                                                 [defaultLabel]="'--- Select Feature Item  ---'"
+                                                 (selectChange)="changeFeatureitem($event)"
+                                                 [selectedId]="data.featureitem_id" ></ele-select-dropdown>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="search__form__label" for="2">Category:</label>
+                            <select class="select-cus select-category">
+                                <option selected>Select category</option>
+                                <option *ngFor="let item of parentCategory" [value]="item.id"> {{item.name}} </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="search__form__label" for="3">Product code:</label>
+                            <input type="text" (change)="changeCode($event)" placeholder="text here" class="input-text" formControlName="code">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 search__button">
+                            <input type="submit" class="button_black" (click)="filter()" value="Search">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <div class="container">
+            <div class="block">
+
+                <div class="row paging-section" style="margin-bottom: 10px;">
+                    <div class="col-md-3 col-sm-4 cd-form paging-section__right">
+                        <!--                    <div class="paging-section__text">Display</div>-->
+                        <!--                    <select class="select-cus  select-status paging-select">-->
+                        <!--                        <option selected value="10">10 Items</option>-->
+                        <!--                        <option  value="20">20 Items</option>-->
+                        <!--                        <option value="50">50 Items</option>-->
+                        <!--                    </select>-->
+                    </div>
+                    <div class="col-md-9 col-sm-7 paging-section--left" *ngIf="listProduct.result && data.factory_id !== '' ">
+                        <div *ngIf="listProduct.result.total > 0 || keepVisionPaginate">
+                            <ele-paginator *ngIf="listProduct || keepVisionPaginate" (clicking)="onChangePaginate()" currentPage="{{listProduct.result.current_page}}" totalPages="{{listProduct.result.last_page}}" [scroll] = "false"></ele-paginator>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" *ngIf="loadingSpinner === true">
+                        <div class="spinner bigspinner" #signin_loading style="margin-top: 30px">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="listProduct.length == 0 && loading === false">
+                        <p class="text-center">{{'No data result'|trans}} </p>
+                    </div>
+                    <div class="col-sm-12" *ngIf="listProduct.result && data.factory_id !== '' && loading === false">
+                        <div *ngIf="listProduct.result.total === 0">
+                            <p class="text-center"> {{'No data result'|trans}} </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [ngStyle]="{'opacity': loading ? '0.4' : '1'}"  *ngIf="listProduct.result && data.factory_id != ''">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6" *ngFor="let item of listProduct.result.data; let i = index">
+                        <div class="product-list" data-toggle="modal" data-target="#myModal" (click)="getDetalProduct(item.id, data.factory_id);">
+                            <div class="product-list__img">
+                                <img  src="{{app.constant.FILE_UPLOAD_IMAGE}}{{item.image}}" alt="{{ item.image }}}" >
+                            </div>
+                            <div class="product-list__item">
+                                <span class="product-list__name">Code</span>
+                                <span class="product-list__value style-list-product tooltips"> {{ slideString(item.code) }} <span class="tooltiptext"> {{ item.code }} </span> </span>
+                            </div>
+                            <div class="product-list__item">
+                                <span class="product-list__name">Category</span>
+                                <span class="product-list__value orange-color style-list-product tooltips" *ngIf="item.category_name"> {{ slideString(item.category_name) }}
+                                    <span class="tooltiptext"> {{ item.category_name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              }} </span>
+                            </span>
+                            </div>
+                            <div class="product-list__item">
+                                <span class="product-list__name">Name</span>
+                                <span class="product-list__value style-list-product tooltips"> {{ slideString(item.display_name) }} <span class="tooltiptext"> {{ item.display_name }} </span> </span>
+                            </div>
+                            <button class="product-list__button button_black">Detail</button>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="myModal" *ngIf="productDetail">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+
+                                <!-- Modal body -->
+                                <div class="product-list product-lis__modal">
+                                    <div class="product-list__img">
+                                        <img class="img-detail" src="{{app.constant.FILE_UPLOAD_IMAGE}}{{productDetail.image}}"  alt="{{productDetail.image}}">
+                                    </div>
+                                    <div class="product-list__inner">
+                                        <div class="product-list__item">
+                                            <span class="product-list__name">Code</span>
+                                            <span class="product-list__value"> {{ productDetail.code }} </span>
+                                        </div>
+                                        <div class="product-list__item">
+                                            <span class="product-list__name">Name</span>
+                                            <span class="product-list__value"> {{ productDetail.display_name }} </span>
+                                        </div>
+                                        <div class="product-list__item">
+                                            <span class="product-list__name">Category</span>
+                                            <span class="product-list__value"> {{ productDetail.category_name }} </span>
+                                        </div>
+                                        <div class="product-list__item">
+                                            <span class="product-list__name">Factory</span>
+                                            <span class="product-list__value"> {{ productDetail.factory_name }} </span>
+                                        </div>
+                                        <div class="product-list__item">
+                                            <span class="product-list__name">Store</span>
+                                            <span class="product-list__value"> {{ productDetail.store_name }} </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>

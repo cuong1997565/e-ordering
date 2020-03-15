@@ -1,0 +1,55 @@
+<ele-breadcrumb [items]="['Translation Management'|trans, 'List'|trans]" icon="book"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <form class="smart-form">
+            <label class="col-md-2 control-label" style="margin-top: 5px">{{'Select language'|trans}}:</label>
+            <div class="checkboxes col-md-6 inline-group">
+                <label class="radio" *ngFor="let item of langs | list">
+                    <input type="radio" name="radio-inline" [checked]="item.value == currentLang" (change)="changeLang(item.value)">
+                    <i></i>{{item.value}}
+                </label>
+            </div>
+        </form>
+
+        <button class="btn btn-success pull-right" (click)="gen()">{{'Gen key'|trans}}</button>
+        <button *ngIf="data.length" class="btn btn-primary pull-right button-dev-trans" (click)="addToServer()">{{'Add selected key to server'|trans}}</button>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover trans-table">
+                        <thead>
+                            <tr>
+                                <th>{{'Key'|trans}}</th>
+                                <th>{{'Trans'|trans}}</th>
+                                <th class="text-center col-md-2">
+                                    <label class="checkbox check-all-label">
+                                        <input type="checkbox" [checked]="data.length == list.length" (click)="checkAll()">
+                                        <i></i><span class="check-all-trans">{{"Action" | trans}}</span>
+                                    </label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="list == 0">
+                            <tr>
+                                <td colspan="3" class="text-center">{{'No data result'|trans}}</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="list">
+                            <tr *ngFor="let item of list">
+                                <td>{{item.key}}</td>
+                                <td>{{item.trans}}</td>
+                                <td class="text-center col-md-2 trans-table">
+                                    <label class="checkbox text-center">
+                                        <input class="trans-checkbox" type="checkbox" [checked]="data.includes(item.id)" (click)="action(item)"><i></i>{{item.id}}
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

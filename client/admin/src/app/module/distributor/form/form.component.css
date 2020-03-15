@@ -1,0 +1,21 @@
+.info-distributor {
+    color: #333;
+    background: #f8f8f8 !important;
+    border: 1px solid #d1d1d1 !important;
+}
+
+.send {
+    background: #0c7cd5 !important;
+    color: white;
+}
+
+.set{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+table.table-bordered tr:first-child th{
+    color: #333;
+    background: #eee !important;
+}

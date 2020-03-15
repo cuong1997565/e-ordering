@@ -1,0 +1,148 @@
+<div class="loading-bg" *ngIf="loading">
+    <div class="loading-img">
+        <img src="assets/images/white-load.gif">
+    </div>
+</div>
+<div id="main" class="main cd-form">
+    <section class="search">
+        <div class="container">
+            <form action="" class="search__form cd-form" [formGroup]="fd.form">
+                <div class="row search__first-line">
+                    <div class="col-sm-4">
+                        <label class="search__form__label">Select Factory:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <ele-select-dropdown [selectedId]="factory_id" [defaultLabel]="'--- Select Factory ---'" [options]="factory" (selectChange)="changefactory($event)"></ele-select-dropdown>
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-4">
+                        <label class="search__form__label">Order code:</label>
+                        <input type="text" formControlName="order_code" class="input-text">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label class="search__form__label">Status:</label>
+                        <ele-select-dropdown [selectedId]="status_id" [defaultLabel]="'--- Select Status ---'"  [options]="status" (selectChange)="changeStatus($event)"></ele-select-dropdown>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center search-line-2">
+                    <div class="col-sm-4">
+                        <label class="search__form__label">Order date:</label>
+                        <div class="row form-calendar-double">
+                            <div class="col-6"><input type="text" class="input-text input-text__calendar datepicker from_date" id="from_date1" formControlName="from_date1" autocomplete="off"></div>
+                            <div class="col-6"><input type="text" class="input-text input-text__calendar datepicker to_date" id="to_date1"  formControlName="to_date1" autocomplete="off"></div>
+                            <div class="form-calendar-double__center">~</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="search__form__label">Update date:</label>
+                        <div class="row form-calendar-double">
+                            <div class="col-6"><input type="text" class="input-text input-text__calendar datepicker from_date" id="from_date2" formControlName="from_date2" autocomplete="off"></div>
+                            <div class="col-6"><input type="text" class="input-text input-text__calendar datepicker to_date" id="to_date2" formControlName="to_date2" autocomplete="off"></div>
+                            <div class="form-calendar-double__center">~</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 search__button">
+                        <input type="submit" class="button_black" (click)="search()" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <div class="container">
+        <div class="block">
+            <div class="row paging-section">
+                <div class="offset-md-9 offset-sm-8 col-md-3 col-sm-4 cd-form paging-section__right">
+                    <div class="paging-section__text">Display</div>
+                    <select class="select-cus paging-select">
+                        <option value="10" selected>10 Items</option>
+                        <option value="20" >20 Items</option>
+                        <option value="50">50 Items</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <a [attr.action]="'/order/add'" (click)="goToCreateOrder()" id="button_black" class="button_black1">{{'Create order'}}</a>
+                <div class="col-sm-12 search__button">
+                </div>
+            </div>
+            <div class="row">
+                <div class="available-amount">Available amount : {{ availableAmount | number  }} VNĐ </div>
+            </div>
+            <div class="table-list">
+                <table class="table-list__table table-mb__full-2">
+                    <tbody><tr>
+                        <th class="table-list__table--with-no">Ｎｏ</th>
+                        <th class="table-list__table--with-total mb-none">Factory</th>
+                        <th class="table-list__table--with-date">Order date</th>
+                        <th class="table-list__table--with-date">Update date</th>
+                        <th class="table-list__table--with-total mb-none">Delivery date</th>
+                        <th class="table-list__table--with-total mb-none">Status</th>
+                        <th class="table-list__table--with-button">Action</th>
+                    </tr>
+                    <tr *ngFor="let item of ld.result.data let i = index">
+                        <td class="center">
+                            {{ld.result.from + i }}
+                        </td>
+                        <td class="mb-none right">
+                            <span *ngIf="item.factory">{{item.factory.name}}</span>
+                        </td>
+                        <td>
+                            {{item.created_at}}
+                        </td>
+                        <td>
+                            {{item.updated_at}}
+                        </td>
+                        <td class="mb-none right">
+                            {{item.deliver_date}}
+                        </td>
+                        <td class="mb-none">
+                            <span  *ngIf="item.status === app.constant.WAITING_FOR_CONFIRM_ORDER">{{'Waiting for confirm' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.REVIEWING_ORDER">{{'Reviewing' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.CLOSED_ORDER">{{'Closed' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.REJECT_BY_SALES_ORDER">{{'Reject by sales' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.CANCELLED_BY_CUSTOMER_ORDER">{{'Cancelled' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.SALES_ACCEPTED_ORDER">{{'Accepted' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.DELIVERING_ORDER">{{'Delivering' | trans}}</span>
+                            <span  *ngIf="item.status === app.constant.CUSTOMER_SUBMITED_ORDER">{{'  Submited' | trans}}</span>
+                            <span *ngIf="item.status === app.constant.WAITING_FOR_DRAF_ORDER"> {{' Draft ' | trans}} </span>
+                        </td>
+                        <td *ngIf="check === app.constant.GROUP_ADMIN">
+                            <button class="button_black-bor" (click)="viewOrder(item.id)">View</button>
+                            <button class="button_black-bor marginTop10" *ngIf="item.status ===app.constant.WAITING_FOR_CONFIRM_ORDER ||
+                            item.status  === app.constant.CUSTOMER_SUBMITED_ORDER"
+                                    (click)="cancelOrder(item.id)"> Cancel </button>
+                            <button class="button_black-bor marginTop10" *ngIf="item.status === app.constant.WAITING_FOR_DRAF_ORDER"
+                                    (click)="deleteOrder(item.id)"
+                            > Delete </button>
+
+                        </td>
+                        <td *ngIf="check === app.constant.ORDER_MANAGER">
+                            <button class="button_black-bor" (click)="viewOrder(item.id)">View</button>
+                            <button style="margin-top: 10px" class="button_black-bor" *ngIf="item.status ===app.constant.WAITING_FOR_CONFIRM_ORDER ||
+                            item.status  === app.constant.CUSTOMER_SUBMITED_ORDER"
+                                    (click)="cancelOrder(item.id)"> Cancel </button>
+
+                        </td>
+                        <td *ngIf="check === app.constant.ORDER_VIEWER">
+                            <button class="button_black-bor" (click)="viewOrder(item.id)">View</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="ld.result.total == 0">
+                        <td colspan="7">
+                            <p class="text-center">{{'No data result'|trans}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginator" *ngIf="ld.result.total > 0">
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </div>
+</div>

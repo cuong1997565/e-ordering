@@ -1,0 +1,55 @@
+<div class="header header__logo">
+    <div class="container header-inner">
+        <div class="header--left">
+            <h1 class="logo-main">
+                <img class="logo-main_pc" src="assets/images/prime.gif">
+                <img class="logo-main_mb" src="assets/images/prime.gif">
+            </h1>
+        </div>
+<!--        <ele-language-selector></ele-language-selector>-->
+    </div>
+</div>
+<div class="main main__logo login-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <form [formGroup]="loginForm" class="col-md-6 col-sm-10 login--form cd-form" (ngSubmit)="submit()">
+                <h2 class="orange__title login__title">{{'Login'|trans}}</h2>
+                <div class="login__content row justify-content-center" *ngIf="serverError">
+                    <p class="error-message">{{serverError}}</p>
+                </div>
+                <br/>
+                <div class="login__content row justify-content-center">
+                    <div class="col-md-8 login__item">
+                        <label for="1" class="cd-form__label">
+                            Mail address:
+                        </label>
+                        <input id="email" type="email" class="input-text" formControlName="email" placeholder="Email"
+                               (keypress)="resetForm($event)">
+                        <p *ngIf="isSubmitted && formControls.email.errors" class="error-message">Email is required</p>
+                    </div>
+                    <div class="col-md-8 login__item">
+                        <label for="2" class="cd-form__label">
+                            Password:
+                        </label>
+                        <input id="pass" type="password" class="input-text" formControlName="password"
+                               placeholder="Password" (keypress)="resetForm($event)">
+                        <p *ngIf="isSubmitted && formControls.password.errors" class="error-message">Password is
+                            required</p>
+                    </div>
+                </div>
+                <div class="login__bottom" style="position: relative">
+                    <input type="submit" class="button_black button_small" value="Login">
+                    <div class="spinner" #signin_loading>
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+                <a [routerLink]="" class="login__bottom--link" (click)="forgot()">Reset password</a>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    Copyright © PRIME CORPORATION
+</div>

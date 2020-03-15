@@ -1,0 +1,81 @@
+.order-6 {
+    top: -2px;
+    left: 0;
+    border: 2px solid snow;
+}
+
+.flowBox {
+    background: #FFFFFF;
+    margin: 0px;
+    float: left;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+}
+
+.info-order {
+    color: #333;
+    background: #f8f8f8 !important;
+    border: 1px solid #d1d1d1 !important;
+}
+
+label {
+    padding-top: 5px;
+}
+
+.info-div {
+    padding-bottom: 50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#info-form{
+    /*padding-bottom: 46px;*/
+}
+
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.accept{
+    color: #0aa66e !important;
+}
+
+.reject{
+    color: red !important;
+}
+
+.send{
+    background: #0c7cd5 !important;
+    color: white;
+}
+
+input:required {
+    border: 1px solid red;
+}
+
+#attr {
+    margin-bottom: 5px;
+}
+
+
+@media only screen and (max-width: 1024px) and (min-width: 320px) {
+    .info-div {
+        padding-bottom: 0px !important;
+    }
+}
+
+.control-label{
+    text-align: left !important;
+    padding-bottom: 10px;
+}
+
+table.table-bordered tr:first-child th{
+    color: #333;
+    background: #eee !important;
+}

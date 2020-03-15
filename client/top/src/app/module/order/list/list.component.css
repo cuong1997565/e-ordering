@@ -1,0 +1,48 @@
+.paging-section__text {
+    top: -3px;
+    left: 0px;
+}
+
+.paging-section__right{
+    margin-bottom: -12px;
+}
+
+.paging-right{
+    float: right;
+    padding-top: 15px;
+}
+
+#paginator{
+    margin-top: 30px !important;
+}
+
+.main{
+    padding-bottom: 10px !important;
+}
+
+#button_black{
+    margin-top: -50px;
+    color: white;
+    margin-left: 15px;
+}
+
+.button_black1{
+    background: #000000;
+    border: none;
+    border-radius: 0;
+    color: #FFFFFF;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    min-width: 150px;
+    padding: 15px 25px;
+    font-weight: bold;
+}
+
+.marginTop10{
+    margin-top: 10px;
+}
+.available-amount {
+    padding-left: 16px;
+    font-size: 17px;
+    padding-bottom: 10px;
+}

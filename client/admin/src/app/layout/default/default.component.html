@@ -1,0 +1,30 @@
+<!-- #HEADER -->
+<ele-header></ele-header>
+<!-- END HEADER -->
+
+<!-- #NAVIGATION -->
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS/SASS variables -->
+<aside id="left-panel">
+    <!-- User info -->
+    <!-- end user info -->
+
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <ele-menu></ele-menu>
+</aside>
+<!-- END NAVIGATION -->
+
+<!-- #MAIN PANEL -->
+<div id="main" role="main">
+    <router-outlet></router-outlet>
+</div>
+<!-- END #MAIN PANEL -->
+
+<!-- #PAGE FOOTER -->
+<ele-footer></ele-footer>
+<!-- END FOOTER -->

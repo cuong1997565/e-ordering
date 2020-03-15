@@ -1,0 +1,119 @@
+<ele-breadcrumb [items]="['Admin'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="user-md"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Admin'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Username'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" id="username" formControlName="username" placeholder="{{'UserName'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="name" placeholder="{{'Name'|trans}}" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Password'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="password" formControlName="password" placeholder="{{'Password'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Password confirmation'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="password" formControlName="password_confirmation" placeholder="{{'Password confirmation'|trans}}" class="form-control" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Email'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="email" placeholder="{{'Email'|trans}}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Phone'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="phone_number" placeholder="{{'Phone'|trans}}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Group'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select (change)="change($event)" formControlName="group" class="input-sm form-control" [attr.disabled]="(profile && app.curUser.name == profile.name) ? true : null">
+                                        <option *ngFor="let item of fd.group|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf=" code == 10 && check != null" id="factory" class="form-group">
+                                <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select formControlName="factory_id" class="input-sm form-control">
+                                        <option  value=null >---Select---</option>
+                                        <option *ngFor="let item of factory" [value]="item.id||''" >{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="code == 3 && check == null" id="factory1" class="form-group">
+                                <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select formControlName="factory_id" class="input-sm form-control">
+                                        <option  value=null >---Select---</option>
+                                        <option *ngFor="let item of factory" [value]="item.id||''" >{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf=" code == 3 && check != null" id="factory2" class="form-group">
+                                <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-3 text-left">
+                                    <select formControlName="factory_id" class="input-sm form-control">
+                                        <option  value=null >---Select---</option>
+                                        <option *ngFor="let item of factory" [value]="item.id||''" >{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Active'|trans}}</label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Roles '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="roles"  [attr.disabled]="(profile && app.curUser.name == profile.name) ? true : null">
+                                        <option *ngFor="let item of roles|list:('Select roles'|trans)" [value]="item.key" [selected]="item.key && item.key == roleId"> {{item.value}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/user"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

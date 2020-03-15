@@ -1,0 +1,9 @@
+<span class="onoffswitch">
+    <input type="checkbox" [checked]="value" (click)="onClick()" name="start_interval" class="onoffswitch-checkbox" id="{{widgetID}}">
+    <label class="onoffswitch-label" for="{{widgetID}}">
+        <span *ngIf="app.curLang == 'us'" class="onoffswitch-inner"  data-swchon-text="Yes" data-swchoff-text="No"></span>
+        <span *ngIf="app.curLang == 'jp'" class="onoffswitch-inner"  data-swchon-text="Yes" data-swchoff-text="No"></span>
+        <span *ngIf="app.curLang == 'vn'" class="onoffswitch-inner"  data-swchon-text="Yes" data-swchoff-text="No"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</span>

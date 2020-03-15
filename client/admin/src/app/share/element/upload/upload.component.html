@@ -1,0 +1,14 @@
+<div class="inputupload" *ngIf="!confirm">
+    <div class="imagebox" *ngIf="filePath">
+        <img src="{{app.constant.BASE_FILE+filePath}}" width="150"/>
+        <div class="clearfix"></div>
+        <br/>
+    </div>
+    <input class="form-control input_{{fieldName}}" id="{{fieldName}}" [attr.formControlName]="fieldName" (change)="changeInputFile($event)" type="file" />
+    <p class="note" *ngIf="app.curLang != 'jp'">{{'Allow file'|trans}} {{extensions.replace('|', ', ')}} & {{'file size maximum'|trans}} {{size/1024}}MB</p>
+    <p class="note" *ngIf="app.curLang == 'jp'">{{extensions.replace('|', ', ')}}ファイル＆最大{{size/1024}}MBまで</p>
+    <div *ngIf="validateErrors && validateErrors.type">
+        <p class="help-block" ><span class="text-danger">{{validateErrors.message}}</span></p>
+    </div>
+</div>
+<img *ngIf="confirm" class="confirm_{{fieldName}}" src="{{app.constant.BASE_FILE+filePath}}" width="150"/>

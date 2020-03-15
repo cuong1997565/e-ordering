@@ -1,0 +1,17 @@
+<ul class="pagination">
+    <li class="page-item previous"  id="datatable_fixed_column_previous">
+        <a class="page-link" (click)="gotoPrevPage(firtPage)">  {{ 'First page' | trans }}  </a>
+    </li>
+    <li class="page-item previous {{currentPage==1?'disabled':''}}"  id="datatable_fixed_column_previous">
+        <a class="page-link" (click)="gotoPrevPage(currentPage)"> {{'Previous' | trans}} </a>
+    </li>
+    <li class="page-item {{currentPage==page?'active':''}}" *ngFor="let page of listPages">
+        <a class="page-link" (click)="gotoPage(page)" tabindex="{{page}}">{{ page }} </a>
+    </li>
+    <li class="page-item next {{currentPage==totalPages?'disabled':''}}" id="datatable_fixed_column_next">
+        <a class="page-link" (click)="gotoNextPage(currentPage)"> {{ 'Next' | trans }} </a>
+    </li>
+    <li class="page-item next" id="datatable_fixed_column_next">
+        <a class="page-link" (click)="gotoNextPage(totalPages)"> {{ 'Last page' | trans }} </a>
+    </li>
+</ul>

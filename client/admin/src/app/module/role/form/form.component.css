@@ -1,0 +1,8 @@
+.permission-container .permission-item:first-child{
+    margin-top: 1px;
+}
+.padding{
+    padding-left: 0px !important;
+    padding-right: 10px;
+    font-weight: bold;
+}

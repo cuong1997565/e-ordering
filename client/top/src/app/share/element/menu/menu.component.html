@@ -1,0 +1,11 @@
+<ul class="nav sidenav" id="mySidenav" >
+    <li class="nav-close"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
+    <li *ngFor="let item of menus" class="nav__item">
+        <a [attr.action]="item.url" (click)="gotoUrl(item.url)" class="{{item.url==activeMenu?'active':''}}" >
+            {{item.text}}
+        </a>
+    </li>
+    <li class="nav__item">
+        <a (click)="logout()">Logout</a>
+    </li>
+</ul>

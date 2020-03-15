@@ -1,0 +1,118 @@
+<ele-breadcrumb [items]="['Price '|trans, 'List item'|trans]" icon="usd"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <div class="row" *ngIf="priceList == this.app.constant.ACTIVE_FALSE">
+            <div class="col-md-12">
+                <div class="jarviswidget">
+                    <header class="info-distributor">
+                        <h2>{{'Add Item'|trans}}</h2>
+                    </header>
+                    <div class="widget-body">
+                        <form  class="form-horizontal" [formGroup]="fd.form">
+                            <div class="row">
+                                <label class="control-label col-md-2"> {{ 'Product List' |trans }} <span class="text-danger"> * </span></label>
+                                <div class="col-md-2">
+                                    <select class="form-control" formControlName="product_id" (input)="changeValueProduct($event)">
+                                        <option *ngFor="let item of productList|list:('Select product list'|trans) : 'id' : 'display_name'" [value]="item.key"> {{item.value}} - {{item.code}} </option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label col-md-1"> {{ 'Grade List' |trans }} <span class="text-danger"> * </span></label>
+                                <div class="col-md-2">
+                                    <select class="form-control" formControlName="grade_id">
+                                        <option *ngFor="let item of gradeList|list:('Select grade'|trans) : 'id' : 'display_name'" [value]="item.key"> {{item.value}} - {{item.code}} </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button class="btn btn-success" type="button" (click)="savePriceItem()">{{'+'|trans}}</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <table class="table table-striped table-bordered table-hover table-sub">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>{{ 'Product List'|trans }}</th>
+                                            <th>{{ 'Grade List'|trans }}</th>
+                                            <th class="col-md-2">{{ 'Unit Price'|trans }}</th>
+                                            <th class="text-center col-md-2">{{ 'Actions'|trans }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngIf="listPriceItem.length === 0">
+                                            <td colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr *ngFor="let item of listPriceItem; let i = index">
+                                            <td> {{i + 1}} </td>
+                                            <td> {{ item.product_display_name }} </td>
+                                            <td> {{ item.grade_display_name }} </td>
+                                            <td>
+                                                <input class="text-right" (input)="changeUnitPrice(i, $event)" [value]="item.unit_price" autocomplete="off" type="number" min="0" style="width: 100%">
+                                            </td>
+                                            <td class="text-center">
+                                                <a  class="btn btn-sm btn-default" (click)="removListItem(i)"><i class="fa fa-trash-o"></i> </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="form-group action_box">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" (click)="cancelPrice()" type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit" (click)="submitPriceListItem()">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ 'Product Name' | trans }}</th>
+                            <th>{{ 'Grade Name' | trans }}</th>
+                            <th> {{ 'Unit Price (VNĐ)' | trans }} </th>
+                            <th class="text-center col-md-1">{{ 'Actions' | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="7" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ ld.result.from + i }}</td>
+                            <td>{{ item.display_name_product }}</td>
+                            <td>{{ item.display_name_grade }}</td>
+                            <td> {{formatNumber(item.unit_price)}} </td>
+                            <td class="text-center" *ngIf="app.curUser.group != app.constant.GROUP_ADMIN"></td>
+                            <td class="text-center">
+                                <a  class="btn btn-sm btn-default" (click)="removeItemPrice(item)" ><i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <a class="btn btn-default" [routerLink]='["/price"]' type="button">{{'Back'|trans}}</a>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

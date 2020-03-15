@@ -1,0 +1,67 @@
+<ele-breadcrumb *ngIf="user" [items]="[{url: '/user', label: 'Admin'|trans}, user.name, 'Detail'|trans]" icon="user"></ele-breadcrumb>
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="jarviswidget jarviswidget-sortable" id="wid-id-0" data-widget-colorbutton="false" data-widget-editbutton="false"
+                 role="widget">
+                <header role="heading">
+                    <div class="jarviswidget-ctrls" role="menu">
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Admin'|trans}}</h2>
+                </header>
+
+                <div role="content">
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body">
+                        <table id="contact" class="table table-bordered table-striped" style="clear: both" *ngIf="user">
+                            <tbody>
+                            <tr>
+                                <td width="25%">{{'Username'|trans}}</td>
+                                <td>{{user.username}}</td>
+                            </tr>
+                            <tr>
+                                <td width="25%">{{'Name'|trans}}</td>
+                                <td>{{user.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Email'|trans}} </td>
+                                <td>{{user.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Phone number'|trans}}</td>
+                                <td>{{user.phone_number}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Group'|trans}}</td>
+                                <td>{{app.constant.User.group[user.group]}}</td>
+                            </tr>
+                            <tr *ngIf="user.factory_id">
+                                <td>{{'Factory'|trans}}</td>
+                                <td>{{user.factory.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Update at'|trans}}</td>
+                                <td>{{user.updated_at | datex:'YYYY-MM-DD'}}</td>
+                            </tr>
+                            <tr *ngIf="user">
+                                <td>{{'Active'|trans}}</td>
+                                <td>{{app.constant.Active[user.active] | trans}}</td>
+                            </tr>
+                            <tr>
+                                <td> {{'Role' | trans}} </td>
+                                <td> {{ user.roles }} </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-actions text-left">
+                            <a class="btn btn-default" [routerLink]='["/user"]' type="button">{{'Back'|trans}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

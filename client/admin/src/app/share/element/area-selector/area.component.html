@@ -1,0 +1,58 @@
+<div class="form-group select2-element">
+    <label class="col-md-2 control-label">
+        <div *ngIf="!detail else labelDetail">{{label|trans}} <span class="text-danger" *ngIf="required">*</span></div>
+        <ng-template #labelDetail><strong>{{label|trans}}</strong> <span class="text-danger" *ngIf="required">*</span></ng-template>
+    </label>
+
+    <div *ngIf="!detail">
+        <div class="col-md-2 select2-element" *ngIf="province">
+            <ele-province-selector
+                (provinceEvent)="provinceSelected($event)"
+                [identity_name]="'province_id'"
+                [fd]="fd"
+                [value]="fd.form.value.province_id">
+            </ele-province-selector>
+        </div>
+
+        <div class="col-md-2 select2-element" *ngIf="district">
+            <ele-district-selector
+                (districtEvent)="districtSelected($event)"
+                [identity_name]="'district_id'"
+                [fd]="fd"
+                [value]="fd.form.value.district_id"
+                [provinceEvent]="selectedProvice">
+            </ele-district-selector>
+        </div>
+
+        <div class="col-md-2 select2-element" *ngIf="commune">
+            <ele-commune-selector
+                (communeEvent)="communeSelected($event)"
+                [identity_name]="'commune_id'"
+                [fd]="fd"
+                [value]="fd.form.value.commune_id"
+                [districtEvent]="selectedDistrict">
+            </ele-commune-selector>
+        </div>
+
+        <div class="col-md-2 select2-element" *ngIf="village">
+            <ele-village-selector
+                (villageEvent)="villageSelected($event)"
+                [identity_name]="'village_id'"
+                [fd]="fd"
+                [value]="fd.form.value.village_id"
+                [communeEvent]="selectedCommune">
+            </ele-village-selector>
+        </div>
+    </div>
+    <div *ngIf="detail">
+        <div class="col-md-6">
+            <div class="control-label pull-left">
+                <strong>{{this.provinces[fd.form.value.province_id]}}&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</strong>
+                <strong>{{this.districts[fd.form.value.district_id]}}&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</strong>
+                <strong>{{this.communes[fd.form.value.commune_id]}}&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</strong>
+                <strong>{{this.villages[fd.form.value.village_id]}}</strong>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,17 @@
+.form-inline label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+.form-inline select {
+    width: 500px;
+}
+.form-inline {
+    border: solid 1px #ccc;
+    background: #f1f1f1;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.form-inline div {
+    margin-right: 100px;
+}

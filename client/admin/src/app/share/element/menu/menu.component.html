@@ -1,0 +1,29 @@
+<nav>
+  <!--
+  NOTE: Notice the gaps after each icon usage <i></i>..
+  Please note that these links work a bit different than
+  traditional href="" links. See documentation for details.
+  -->
+  <ul>
+      <ng-container *ngFor="let item of menus">
+        <li class="menuList {{item.url==activeMenu?'active':''}}" *ngIf="showMenu(item)">
+          <a [attr.action]="item.url" (click)="gotoUrl(item.url)">
+              <i class="fa fa-lg fa-fw {{item.icon}}"></i>
+              <span class="menu-item-parent">{{item.text | trans}}</span>
+          </a>
+          <ul *ngIf="item.children">
+              <ng-container *ngFor="let child of item.children">
+                <li class="menuChild {{child.url==activeMenu?'active':''}}" *ngIf="showMenu(child)">
+                <a [attr.action]="child.url" (click)="gotoUrl(child.url)">
+                    <i *ngIf="child.icon" class="fa {{child.icon}}"></i>
+                    {{child.text | trans}}
+                </a>
+                </li>
+              </ng-container>
+          </ul>
+        </li>
+      </ng-container>
+  </ul>
+</nav>
+
+<span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>

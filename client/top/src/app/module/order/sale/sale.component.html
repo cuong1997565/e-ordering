@@ -1,0 +1,108 @@
+<div id="main" class="main order-page">
+    <form class="container cd-form">
+        <div class="block">
+            <h2 class="block__title orange__title">SO Items</h2>
+            <div class="table-list">
+                <table class="table-list__table table-mb__full-1">
+<!--                    table-responsive-->
+                    <tbody>
+                    <tr>
+                        <th class="text-center min-with"></th>
+                        <th class="text-center min-with">{{ 'Code' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Name' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Image' | trans }}</th>
+                        <th class="text-center">{{ 'Customer Note' | trans }}</th>
+                        <th class="text-center">{{ 'Sale Note' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Grade' | trans }}</th>
+                        <th class="text-center" style="min-width: 200px">{{ 'Attributes' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Ordered UOM' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Customer Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Sales Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Delivered Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{ 'Remaining Quantity' | trans }}</th>
+                        <th class="text-center min-with">{{'Status' | trans}}</th>
+                    </tr>
+                    </tbody >
+                    <tbody *ngIf="ld">
+                    <tr *ngIf="pivot_item.length == 0">
+                        <td class="center" colspan="8" rowspan="8">
+                            {{'No data result' | trans}}
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr *ngFor="let item of pivot_item; let i = index;">
+                        <td class="center table__code">
+                            {{   i + 1 }}
+                        </td>
+                        <td class="text-center">{{item.product.code}}</td>
+                        <td class="text-center">{{item.product?item.product.name:''}}</td>
+                        <td><img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{item.product.image}}"
+                                 width="75px" height="75px">
+                        </td>
+                        <td><textarea disabled cols="10" rows="5" [value]="item.user_note"></textarea></td>
+                        <td><textarea disabled class="sale_note sale_note-disabled"
+                                                   cols="10" rows="5" [value]="item.sale_note"></textarea>
+                        </td>
+                        <td class="text-center">{{item.grade ? item.grade.name : ''}}</td>
+                        <td>
+                            <div *ngFor="let attr of item.product_attr">
+                                <span *ngIf="attr.type === app.constant.Attributes_Type_String">{{attr.name + ':'}}<input
+                                   disabled class="attr product_attr{{attr.id + i}}" type="text" value="{{attr.attribute_label}}"></span>
+                                <span *ngIf="attr.type === app.constant.Attributes_Type_Number">{{attr.name + ':'}}<input
+                                    disabled class="attr product_attr{{attr.id + i}}" type="text" value="{{attr.attribute_label}}"></span>
+                                <span *ngIf="attr.type === app.constant.Attributes_Type_List">{{attr.name + ':'}}
+                                <select *ngIf="attr.listAttribute" disabled style="width: 100%">
+                                    <option *ngFor="let j of attr.listAttribute|list" [value]="j.key" [selected]="j.key == attr.attribute_label" >
+                                        {{j.value}}
+                                    </option>
+                                </select>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-center">{{item.uom?item.uom.display_name:''}}</td>
+                        <td class="text-center">{{item.customer_quantity}}</td>
+                        <td class="text-center">
+                           {{ item.sale_quantity }}
+                        </td>
+                        <td class="text-center"> {{ item.delivered_quantity }} </td>
+                        <td class="text-center"> {{ item.remaining_quantity }} </td>
+                        <td class="text-center" *ngIf="item.status === app.constant.SO_DRAFT">{{'DRAFT'}}</td>
+                        <td class="text-center" *ngIf="item.status === app.constant.SO_OPEN">{{'OPEN'}}</td>
+                        <td class="text-center" *ngIf="item.status === app.constant.SO_CLOSE">{{'CLOSE'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row form-note padding-top-10">
+                <div  class="col-12">
+                    <label class="search__form__label">SO Number:</label>
+                    <span class="paddLeft5" *ngIf="ld"> {{ ld.so_number }}  </span>
+                </div>
+            </div>
+
+            <div class="row form-note padding-top-10">
+                <div  class="col-12">
+                    <label class="search__form__label">Factory :</label>
+                    <span class="paddLeft5" *ngIf="ld"> {{ ld.factory ? ld.factory.name : '' }}  </span>
+                </div>
+            </div>
+
+            <div class="row form-note padding-top-10">
+                <div  class="col-12">
+                    <label class="search__form__label">Distributor :</label>
+                    <span class="paddLeft5" *ngIf="ld"> {{ ld.distributor ? ld.distributor.name : '' }}  </span>
+                </div>
+            </div>
+
+            <div class="block__bottom">
+                <button class="button_black marRight-10" (click)="backPO()">Back PO</button>
+                <button class="button_black" (click)="redirectDeliveryNote()" *ngIf="ld && countSaleOrderDelivery > 0"> <span>  <i class="fa fa-edit"></i> Delivery Note Detail </span> </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>

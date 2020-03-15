@@ -1,0 +1,21 @@
+.languages_box {
+    clear: bottom;
+    margin-bottom: 5px;
+}
+.languages_box span.current {
+    border-bottom: solid 2px #71843f;
+    padding-bottom: 0px;
+}
+.languages_box span{
+    margin: 0 3px;
+    cursor: pointer;
+}
+.languages_box span .flag{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+.languages_box span.active .flag,
+.languages_box span .flag:hover {
+    -webkit-filter: grayscale(0); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0);
+}

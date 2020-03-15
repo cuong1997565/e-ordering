@@ -1,0 +1,57 @@
+<ele-breadcrumb [items]="['Translation management'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="book"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Transplation'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Key'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input formControlName="key" placeholder="{{'Key'|trans}}"  type="text" class="form-control" autocomplete="false">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Trans'|trans}}</label>
+                                <div class="col-md-10">
+                                    <input formControlName="trans" placeholder="{{'Trans'|trans}}"  type="text" class="form-control" autocomplete="false">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Type'|trans}}</label>
+                                <div class="col-md-10">
+                                    <select formControlName="type" class="form-control duynb">
+                                        <option *ngFor="let item of app.constant.Translation.type|list:('Select'|trans)" [value]="item.key" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="form-group action_box text-right">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/translation", lang]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

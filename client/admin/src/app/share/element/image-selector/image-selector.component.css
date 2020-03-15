@@ -1,0 +1,11 @@
+.image_select_item {
+    padding: 1px;
+    border: solid 2px #ccc;
+    margin: 5px;
+    border-radius: 5px;
+    float: left;
+    cursor: pointer;
+}
+.image_select_item.active {
+    border-color: #71843f;
+}

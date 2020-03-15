@@ -1,0 +1,274 @@
+<ele-breadcrumb [items]="['Product'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="cube"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Product'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal" (ngSubmit)="save()">
+
+                        <legend>{{'Basic info'|trans}}</legend>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Product code'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="code" placeholder="{{'Code'|trans}}" *ngIf="fd.isNew; else ngCannotCode"  class="form-control" autocomplete="off" />
+                                    <ng-template #ngCannotCode>
+                                        <input type="text" formControlName="code" placeholder="{{'Code'|trans}}" disabled class="form-control" autocomplete="off" />
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Short name' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="short_name" placeholder="{{'Short name'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Display name' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="display_name" placeholder="{{'Display Name'|trans}}" class="form-control" autocomplete="off" />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Is life management' |trans }}  </label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="is_life_management" (change)="changeStatus($event)" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" *ngIf="isMaxAge">
+                                <label class="col-md-2 control-label"> {{ 'Max age' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="number" formControlName="max_age" placeholder="{{'Max age'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Product image '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10" *ngIf="fd.isNew; else isEditProduct;">
+                                    <input type="file" placeholder="{{'Image'|trans}}" (change)="onFileChange($event)"  class="form-control" autocomplete="off" formControlName="image" />
+                                    <img id="output" class="image-product" #image_change src="https://atasouthport.com/wp-content/uploads/2017/04/default-image.jpg"/>
+                                </div>
+                                <ng-template #isEditProduct>
+                                    <div class="col-md-10">
+                                        <input type="file" placeholder="{{'Image'|trans}}" (change)="onFileChange($event)"  class="form-control" autocomplete="off" formControlName="image_edit" />
+                                        <img *ngIf="data.image; else ngCanNotImage"  class="image-product" #image_change src="{{app.constant.FILE_UPLOAD_IMAGE}}{{data.image}}"/>
+                                        <ng-template #ngCanNotImage>
+                                            <img   class="image-product" #image_change src="https://atasouthport.com/wp-content/uploads/2017/04/default-image.jpg"/>
+                                        </ng-template>
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Feature item' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <div class="chip" *ngFor="let chip of chips | keyvalue">
+                                        {{ chip.value.name }}
+                                        <span class="closebtn" (click)="removeChip(chip.key)" >&times;</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" (click)="openDialogFeatureItem()">
+                                        {{'+'|trans}}
+                                    </button>
+                                    <input type="hidden" formcontrolname="featureitem"/>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"> Add feature item </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label"> {{ 'Feature Item' |trans }} <span class="text-danger"> * </span></label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control" formControlName="featureitem_id">
+                                                                <option *ngFor="let item of featureItem|list:('Select feature item'|trans)" [value]="item.key"> {{item.value}} </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" (click)="saveFeatureItem()">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Store' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <div class="chip" *ngFor="let store of productStore | keyvalue">
+                                        {{ store.value.name }} - {{store.value.code}}
+                                        <span class="closebtn" (click)="removeStore(store.key)" >&times;</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#productStoreModal" (click)="openDialogStore()">
+                                        {{'+'|trans}}
+                                    </button>
+                                    <input type="hidden" formcontrolname="stores"/>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="productStoreModal" tabindex="-1" role="dialog" aria-labelledby="productStore" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="productStore"> Add store </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label"> {{ 'Store item' |trans }} <span class="text-danger"> * </span></label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control" formControlName="store_id">
+                                                                <option *ngFor="let item of listStore|list:('Select store'|trans)" [value]="item.key"> {{item.value}} - {{item.code}} </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" (click)="saveStore()">Save change</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Product Type' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="product_type_id">
+                                        <option *ngFor="let item of listProductType|list:('Select product type'|trans)" [value]="item.key"> {{item.value}} - {{ item.code }} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Uom' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="uom_id">
+                                        <option *ngFor="let item of listUom|list:('Select uom'|trans)" [value]="item.key"> {{item.value}} - {{item.code}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Category' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="category_id">
+                                        <option *ngFor="let item of listParentCategories|list:('Select category'|trans)" [value]="item.key"> {{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Grade Group' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="grade_group_id">
+                                        <option *ngFor="let item of listGradeGroup|list:('Select grade group'|trans)" [value]="item.key"> {{item.value}} - {{item.code}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Release date' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="release_date" class="input-text input-text__calendar datepicker from_date form-control" id="from_date1"  autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Active' |trans }}</label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <legend>{{'Price list item'|trans}}</legend>
+
+                        <div class="row">
+                            <label class="control-label col-md-2"> {{ 'Price List' |trans }} <span class="text-danger"> * </span></label>
+                            <div class="col-md-2">
+                                <select class="form-control" formControlName="pricelist_id">
+                                    <option *ngFor="let item of listPriceList|list:('Select price list'|trans)" [value]="item.key"> {{item.value}} - {{item.code}} </option>
+                                </select>
+                            </div>
+                            <label class="control-label col-md-1"> {{ 'Grade List' |trans }} <span class="text-danger"> * </span></label>
+                            <div class="col-md-2">
+                                <select class="form-control" formControlName="grade_id">
+                                    <option *ngFor="let item of listGrade|list:('Select grade'|trans) : 'id' : 'display_name'" [value]="item.key"> {{item.value}} - {{item.code}} </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-success"  type="button" (click)="addPriceListItem()">{{'+'|trans}}</button>
+                                <input type="hidden" formControlName="pricelistitem" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                        <div class="col-md-10 col-md-offset-2">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Price List' | trans }}</th>
+                                    <th>{{ 'Grade' | trans }}</th>
+                                    <th class="col-md-2">{{ 'Unit Price' | trans }}</th>
+                                    <th class="text-center col-md-2">{{ 'Actions' | trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngIf="priceListItem.length === 0">
+                                    <td colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                                </tr>
+                                </tbody>
+                                <tbody>
+                                <tr *ngFor="let item of priceListItem; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td> {{ item.price_name }} </td>
+                                    <td> {{ item.grade_name }} </td>
+                                    <td>
+                                        <input class="text-right" (input)="changeUnitPrice(i, $event)" [value]="item.unit_price" autocomplete="off" type="number" min="0" style="width: 100%">
+                                    </td>
+                                    <td class="text-center">
+                                        <a  class="btn btn-sm btn-default" (click)="removePriceListItem(i)"><i class="fa fa-trash-o"></i> </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+
+                        <div class="form-group action_box">
+                            <div class="col-md-10 col-md-offset-2">
+                                <a class="btn btn-default" [routerLink]='["/product"]' type="button">{{'Cancel'|trans}}</a>
+                                <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,66 @@
+<ele-breadcrumb *ngIf="customer" [items]="[{url: '/member', label: 'Member'|trans}, customer.name]" icon="user"></ele-breadcrumb>
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="jarviswidget jarviswidget-sortable" id="wid-id-0" data-widget-colorbutton="false" data-widget-editbutton="false"
+                 role="widget">
+                <header role="heading">
+                    <div class="jarviswidget-ctrls" role="menu">
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                    <h2>{{'Member'|trans}}</h2>
+                </header>
+
+                <div role="content">
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body">
+                        <table id="contact" class="table table-bordered table-striped" style="clear: both" *ngIf="customer">
+                            <tbody>
+                            <tr>
+                                <td width="25%">{{'Username'|trans}}</td>
+                                <td>{{customer.username}}</td>
+                            </tr>
+                            <tr>
+                                <td width="25%">{{'Name'|trans}}</td>
+                                <td>{{customer.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Email'|trans}} </td>
+                                <td>{{customer.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Phone'|trans}} </td>
+                                <td>{{customer.telephone}}</td>
+                            </tr>
+                            <tr *ngIf="customer.distributor_id">
+                                <td>{{'Distributor'|trans}}</td>
+                                <td>{{customer.distributor.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Update at'|trans}}</td>
+                                <td>{{customer.updated_at | datex:'YYYY-MM-DD'}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'Role'|trans}} </td>
+                                <td><span *ngIf="customer.is_admin === app.constant.GROUP_ADMIN">{{'Account Holder'}}</span>
+                                    <span *ngIf="customer.is_admin !== app.constant.GROUP_ADMIN">{{''}}</span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="customer">
+                                <td>{{'Active'|trans}}</td>
+                                <td>{{app.constant.Active[customer.active] | trans}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-actions text-left">
+                            <a class="btn btn-default" [routerLink]='["/member"]' type="button">{{'Back'|trans}}</a>
+                            <!--<a class="btn btn-warning" [routerLink]='["/contact/", contact.id]'>{{'Delete'|trans}}</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

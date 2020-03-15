@@ -1,0 +1,16 @@
+<ul *ngIf="langList.length > 1" class="header-dropdown-list hidden-xs ng-cloak">
+    <li>
+        <a href="#" (click)="showSelect()" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="assets/images/blank.gif" class="flag flag-{{curLangObj.key}}" > <span> {{curLangObj.title}}</span> </a>
+
+        <ul *ngIf="showLang" class="dropdown-menu pull-right">
+            <li [class.active]="language==curLangObj"
+                *ngFor="let item of langList">
+                <a (click)="setLanguage(item)" class="dropdown-item" >
+                    <img src="assets/images/blank.gif" class="flag flag-{{item.key}}" alt="{{item.alt}}"> {{item.title}}
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+

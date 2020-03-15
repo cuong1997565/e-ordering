@@ -1,0 +1,90 @@
+<ele-breadcrumb [items]="['Attributes'|trans, (fd.isNew?'Add':'Edit')|trans]" icon="dashboard"></ele-breadcrumb>
+
+<div id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jarviswidget">
+                <header>
+                    <div class="jarviswidget-ctrls">
+                        <a class="button-icon form-fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                    <h2>{{'Attributes'|trans}}</h2>
+                </header>
+                <div class="widget-body">
+                    <form [formGroup]="fd.form" class="form-horizontal"  (ngSubmit)="save()">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{' Product Type '|trans}} <span class="text-danger"> * </span> </label>
+                                <div class="col-md-10">
+                                    <select class="form-control" formControlName="product_type_id">
+                                        <option *ngFor="let item of listProductTypes|list:('Select product type'|trans)" [value]="item.key"> {{ item.value }} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Code'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="code" placeholder="{{'Code'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Name'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="name" placeholder="{{'Name'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Description'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <ele-editor  [id]="'ck-description'" formControlName="description"></ele-editor>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">{{'Attribute Type'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <select  class="form-control" formControlName="type" (change)="changeAttributeType($event)">
+                                        <option *ngFor="let item of this.app.constant.Attributes.type|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="data.type == this.app.constant.Attributes_Type_List && idAttribute != 0" class="form-group">
+                                <label class="col-md-2 control-label">{{'Attribute Label'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <div style="padding-top: 6px;">
+                                     <span *ngFor="let item of getAttributeListsOfValue ; let lastIndex = last" style="font-size: 14px">{{item.value}} <span *ngIf="lastIndex;"></span><span *ngIf="!lastIndex"> , </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="form-group">
+                                <label class="col-md-2 control-label">{{'Attribute Sequence'|trans}} <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="text" formControlName="sequence" placeholder="{{'Sequence'|trans}}" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Active' |trans }} <span class="text-danger"> * </span> </label>
+                                <div class="checkbox col-md-1">
+                                    <label>
+                                        <input type="checkbox" formControlName="active" class="checkbox style-0"  />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group action_box">
+                                <div class="checkbox col-md-10 col-md-offset-2">
+                                    <a class="btn btn-default" [routerLink]='["/attributes"]' type="button">{{'Cancel'|trans}}</a>
+                                    <button class="btn btn-success" type="submit">{{'Submit'|trans}}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

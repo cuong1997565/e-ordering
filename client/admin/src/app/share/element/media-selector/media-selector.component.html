@@ -1,0 +1,33 @@
+<div id="media-selector-{{this.id}}" class="media-selector">
+    <ul class="clearfix ui-sortable" *ngIf="this.mediaList && this.mediaList.length > 0">
+        <li *ngFor="let item of this.mediaList; let i = index" class="view-img">
+            <img data-toggle="modal" class="thumbnail-img" src="{{this.app.constant.FILE_MEDIA_THUMB + item}}">
+            <a (click)="delMedia(item)" class="delete-image">
+                <i class="fa fa-times-circle"></i>
+            </a>
+            <a data-toggle="modal" href="#myModal{{i}}" class="hover-eyes">
+                <i class="fa fa-eye"></i>
+            </a>
+        </li>
+    </ul>
+    <a [hidden]="this.multiple == 0 && (this.mediaList && this.mediaList.length > 0)" href="{{mediaUrl}}" class="media-btn-add" type="button">
+        <img src="assets/img/element/media-selector/plus.png" /> {{ buttonText | trans }}
+    </a>
+    <input id="{{this.id}}" #tbMedia type="hidden" class="form-control" />
+    <input id="tmp-{{this.id}}" #tmpMedia type="hidden" class="form-control" />
+</div>
+<!-- Modal -->
+<div *ngFor="let item of this.mediaList; let i = index" class="modal fade" id="myModal{{i}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body no-padding">
+                <img class="thumbnail-img" src="{{this.app.constant.FILE_MEDIA_BASE + item}}">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

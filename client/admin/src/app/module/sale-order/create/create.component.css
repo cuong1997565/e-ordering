@@ -1,0 +1,137 @@
+.info-distributor {
+    color: #333;
+    background: #f8f8f8 !important;
+    border: 1px solid #d1d1d1 !important;
+}
+
+.send {
+    background: #0c7cd5 !important;
+    color: white;
+}
+
+.set{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.product-list {
+    border: 1px solid #a6a6a6;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.product-list__img{
+    padding: 10px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+img[alt] {
+    width: 100%;
+    word-wrap: break-word;
+    height: 100%;
+}
+.image-table {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.product-list__item {
+    border-top: 1px solid #a6a6a6;
+    padding: 7px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-list__item .tooltips{
+    position: relative;
+    display: inline-block;
+}
+
+
+.product-list__item .tooltips .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    word-wrap: break-word;
+}
+
+.product-list__item  .tooltips:hover .tooltiptext {
+    visibility: visible;
+}
+
+.style-list-product {
+    line-height: 1.5;
+    width: 150px;
+    text-align: right;
+    word-wrap: break-word;
+}
+
+.product-list__value{
+    font-weight: bold;
+}
+
+.orange-color{
+    color: #f7922a;
+}
+
+.product-list__button.button_black{
+    width: 100%;
+}
+
+.button_black {
+    background: #000000;
+    border: none;
+    border-radius: 0;
+    color: #FFFFFF;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    min-width: 150px;
+    padding: 15px 25px;
+    font-weight: bold;
+}
+.data-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.style-paginate {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.select-custom {
+    min-width: 222px;
+    margin-right: -3px;
+}
+
+.product-list__alert {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+    background: #f7922a;
+    color: #FFFFFF;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    cursor: pointer;
+}
+.product-list__alert a {
+    color: white;
+}
+
+table.table-bordered tr:first-child th{
+    color: #333;
+    background: #eee !important;
+}

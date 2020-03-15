@@ -1,0 +1,20 @@
+<div class="select-menu">
+    <button class="select-menu-styled" (click)="open(dropdown, origin)" #origin disabled *ngIf="isDisabled === true">
+        <ng-template [ngIf]="!isOpen">{{label}}</ng-template>
+        <ng-template [ngIf]="isOpen">{{label}}</ng-template>
+    </button>
+    <button class="select-menu-styled" (click)="open(dropdown, origin)" #origin  *ngIf="isDisabled === false">
+        <ng-template [ngIf]="!isOpen">{{label}}</ng-template>
+        <ng-template [ngIf]="isOpen">{{label}}</ng-template>
+    </button>
+</div>
+<ng-template #dropdown>
+    <ul class="select-menu-options" #list>
+        <div *ngIf="!length">No results found...</div>
+        <li *ngFor="let option of options"
+            [class.active]="isActive(option)"
+            (click)="select(option)">
+                {{option[labelKey]}}
+        </li>
+    </ul>
+</ng-template>

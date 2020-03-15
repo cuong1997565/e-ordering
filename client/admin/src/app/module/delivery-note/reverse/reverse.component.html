@@ -1,0 +1,581 @@
+<ele-breadcrumb [items]="['Delivery Notes'|trans, (fd.isNew?'Reverse':'Reverse')|trans]" icon="reply"></ele-breadcrumb>
+<!--reverse dn-->
+<div *ngIf="dn_status === app.constant.deliveryConfirmStatus || dn_status === app.constant.deliveryApproved" id="content">
+    <div class="row">
+        <form [formGroup]="fd.form" class="form-horizontal">
+            <div class="col-md-12">
+                <div class="jarviswidget">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                        <h2>{{'Delivery Notes'|trans}}</h2>
+                    </header>
+                    <div class="widget-body form-horizontal">
+                        <div *ngIf="!ld" class="row flowBox">
+
+                            <legend>{{'Detail'|trans}}</legend>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6 text-left">
+                                        <input type="text" value="" disabled placeholder="{{'Distributor'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" value="" disabled placeholder="{{'Factory'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Sale Man'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Sale Man'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'DN Number'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'DN Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Create DN Date'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Create DN Date'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Status DN'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Status Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group sale-order">
+                                    <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" disabled value="" placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{'Amount after Discount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" value="" disabled placeholder="{{'Amount after Discount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div *ngIf="ld" class="row flowBox">
+
+                            <legend>{{'Detail'|trans}}</legend>
+
+                            <fieldset>
+                                <div id="distributor" class="form-group">
+                                    <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6 text-left">
+                                        <input type="text" value="{{ld.distributor.name}}" disabled placeholder="{{'Distributor'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" value="{{ld.factory.name}}" disabled placeholder="{{'Factory'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Sale Man'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.user.name}}" placeholder="{{'Sale Man'|trans}}" class="form-control"
+                                               autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'DN Number'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.dn_number}}" placeholder="{{'DN Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Create DN Date'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.created_at}}" placeholder="{{'Create DN Date'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Status DN'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input *ngIf="dn_status == app.constant.deliveryApproved" type="text" disabled value="{{'APPROVED'}}" placeholder="{{'Status Number'|trans}}" class="form-control" autocomplete="off"/>
+                                        <input *ngIf="dn_status == app.constant.deliveryConfirmStatus" type="text" disabled value="{{'CONFIRM'}}" placeholder="{{'Status Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group sale-order">
+                                    <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" disabled value="{{E_Amount | number:'1.0-2'}}" placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{'Amount after Discount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" value="{{E_AmountDiscount | number:'1.0-2'}}" disabled placeholder="{{'Amount after Discount'|trans}}" class="form-control"
+                                               autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Reverse Delivery Notes' |trans}}</legend>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">{{ 'Code' | trans }}</th>
+                                    <th class="text-center">{{ 'Name' | trans }}</th>
+                                    <th class="text-center">{{ 'Image' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Note' | trans }}</th>
+                                    <th class="text-center">{{ 'Grade' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Attributes' | trans }}</th>
+                                    <th class="text-center">{{ 'Ordered UOM' | trans }}</th>
+                                    <th class="text-center">{{ 'Sales Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Remaining Sales Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Delivered Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Reverse Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Remaining After Reverse Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Unit Price' | trans }}</th>
+                                    <th class="text-center">{{ 'Amount' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Discount' | trans }}</th>
+                                    <th class="text-center">{{'Amount after Discount' | trans}}</th>
+                                    <th class="text-center col-md-1">{{'Store' | trans}}</th>
+                                    <!--                                                    <th class="text-center">{{'Quantity Stock' | trans}}</th>-->
+                                    <th class="text-center">{{'Actions' | trans}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngIf="arr.length === 0">
+                                    <td colspan="18" class="text-center">{{'No data result'|trans}}</td>
+                                </tr>
+                                </tbody>
+                                <tbody *ngFor="let item of arr; let i = index">
+                                <tr *ngFor="let pivot of item.pivot_item; let i_child = index">
+                                    <td class="text-center">{{pivot.stt}}</td>
+                                    <td *ngIf="pivot.product" class="text-center">{{pivot.product.code}}</td>
+                                    <td *ngIf="pivot.product" class="text-center">{{pivot.product.code}}</td>
+                                    <td *ngIf="pivot.product"><img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{pivot.product.image}}"
+                                                                   width="95" height="95px"></td>
+                                    <td><textarea style="width: 100px;" disabled class="dn_note{{pivot.id}}" cols="20" rows="5" value="{{pivot.notes}}"></textarea>
+                                    </td>
+                                    <td>{{pivot.grade ? pivot.grade.name : ''}}</td>
+                                    <td class="text-center">
+                                        <div *ngFor="let attr of pivot.product_attr">
+                                                            <span *ngIf="attr.type === app.constant.Attributes_Type_Number">{{attr.name + ':'}}<input style="width: 110px" type="text"
+                                                                                                                                                      disabled
+                                                                                                                                                      value="{{attr.attribute_label}}"></span>
+                                            <span *ngIf="attr.type === app.constant.Attributes_Type_String">{{attr.name + ':'}}<input style="width: 110px"
+                                                                                                                                      type="text" disabled
+                                                                                                                                      value="{{attr.attribute_label}}"></span>
+                                            <span *ngIf="attr.type === app.constant.Attributes_Type_List"> {{attr.name + ':'}}
+                                                                    <select style="width: 110px" disabled class="input-sm form-control attr" *ngIf="attr.listAttribute">
+                                                                     <option *ngFor="let j of attr.listAttribute|list" [value]="j.key" [selected]="j.key == attr.attribute_label">
+                                                                         {{j.value}}
+                                                                     </option>
+                                                                    </select>
+                                                            </span>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="pivot.uom" class="text-center">{{pivot.uom.name}}</td>
+                                    <td class="text-center">{{pivot.sale_quantity | number:'1.0-2'}}</td>
+                                    <td class="text-center">{{pivot.remaining_quantity | number:'1.0-2'}}</td>
+                                    <td class="text-center">{{pivot.deliver_quantity | number:'1.0-2'}}</td>
+                                    <td class="text-center"><input (input)="setData(pivot.id, 0 , item.id, 'amount','dn_note')"
+                                                                   style="width: 50px" id="amount"
+                                                                   class="amount{{pivot.id}} text-center amount-disabled quantity_ check_amount" autocomplete="off"
+                                                                   type="number">
+                                    </td>
+                                    <td class="text-center">
+                                        {{pivot.dnRemaining | number:'1.0-2'}}
+                                    </td>
+                                    <td>{{pivot.unit_price | number:'1.0-2'}}</td>
+                                    <td class="text-center">
+                                        {{pivot.curAmount | number:'1.0-2'}}
+                                    </td>
+                                    <td>
+                                        <select style="width: 100px;" disabled class="input-sm form-control attr discount{{pivot.id}}">
+                                            <option *ngFor="let d of app.constant.Discount|list: ('Select')" [value]="d.key"
+                                                    [selected]="d.key === '' || d.key == pivot.discount_type">
+                                                {{d.value}}
+                                            </option>
+                                        </select>
+                                        <span>
+                                                            <input disabled style="width: 100px;" class="input_discount{{pivot.id}}" hidden type="number" value="{{pivot.discount}}">
+                                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="show_discount{{pivot.id}}" hidden>{{pivot.curAmountDiscount | number:'1.0-2'}}</span>
+                                    </td>
+                                    <td>
+                                                        <span>
+                                                            <select style="width: 100px;" disabled id="store{{pivot.stt - 1}}" *ngIf="pivot.product" class="input-sm form-control store{{pivot.id}}">
+                                                                <option *ngFor="let k of pivot.product.productstore|list: ('Select')" [value]="k.key"
+                                                                        [selected]="k.key == pivot.product.productstore[0].id">
+                                                                    {{k.value}}
+                                                                </option>
+                                                            </select>
+                                                        </span>
+                                    </td>
+                                    <!--                                                    <td>-->
+                                    <!--                                                        <p style="color: red" class="status_ check_stock"></p>-->
+                                    <!--                                                    </td>-->
+                                    <td class="text-center">
+                                        <a (click)="deleteItem(item.so_id, pivot.id)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i
+                                            class="fa fa-trash-o"></i> </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="20" class="text-center">{{item.so_name}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Discount' |trans}}</legend>
+
+                        <div *ngFor="let item_data of totalDiscountArr; let index = index" class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Distributor Type' |trans }} <span class="text-danger"> * </span></label>
+                                <div class="col-md-2">
+                                    <select [disabled]="true" class="form-control selectDiscount{{index}}">
+                                        <option *ngFor="let item of DiscountType|list:('Select Discount Type'|trans)"
+                                                [value]="item.key" [selected]="item.key == item_data.discount_type_id">{{item.value}}</option>
+                                    </select>
+                                </div>
+
+                                <div  id="ADA{{index}}"  *ngIf="item_data.check_type_discount_value === this.app.constant.Type_Assign_discount_rate && item_data.discount_value > 0">
+                                    <label class="col-md-2 control-label"> {{ 'Assign Discount Rate' |trans }} <span
+                                        class="text-danger"> * </span></label>
+                                    <div class="col-md-2">
+                                        <input  disabled
+                                                class="Assign_discount_rate{{index}} discount_{{index}}" type="number" [value]="item_data.discount_value" name="pages_title[{{index}}]"
+                                                [attr.type_discount] = "'Assign_discount_rate'" [attr.e_amountdiscount] = "E_AmountDiscount ? E_AmountDiscount : E_Amount">
+                                    </div>
+                                </div>
+
+                                <div  id="ADA{{index}}" *ngIf="item_data.check_type_discount_value === this.app.constant.Type_Assign_discount_amount && item_data.discount_value > 0">
+                                    <label class="col-md-2 control-label"> {{ 'Assign Discount Amount' |trans }} <span
+                                        class="text-danger"> * </span></label>
+                                    <div class="col-md-2">
+                                        <input disabled
+                                               class="Assign_discount_amount{{index}} discount_{{index}}" type="number" [value]="item_data.discount_value" name="pages_title[{{index}}]"
+                                               [attr.type_discount] = "'Assign_discount_amount'"  [attr.e_amountdiscount] = "E_AmountDiscount ? E_AmountDiscount : E_Amount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Note' |trans}}</legend>
+                        <textarea id="admin_note" disabled formControlName="notes" cols="183" rows="5"></textarea>
+
+                        <div class="form-group action_box">
+                            <div class="checkbox col-md-12">
+                                <a class="btn btn-default" [routerLink]='["/delivery-note/list"]' type="button">{{'Back'|trans}}</a>
+                                <button [disabled]="disabled_submit" class="btn btn-success" (click)="save()" type="button"  *ngIf="permissions[app.constant.PERMISSION_REVERSE_DN_ORDER]">{{'Submit'|trans}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--end reverse dn-->
+
+<!--view reverse dn-->
+<div *ngIf="dn_status === app.constant.deliveryReverseStatus" id="content">
+    <div class="row">
+        <form [formGroup]="fd.form" class="form-horizontal">
+            <div class="col-md-12">
+                <div class="jarviswidget">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                        <h2>{{'Delivery Notes'|trans}}</h2>
+                    </header>
+                    <div class="widget-body form-horizontal">
+                        <div *ngIf="!ld" class="row flowBox">
+
+                            <legend>{{'Detail'|trans}}</legend>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6 text-left">
+                                        <input type="text" value="" disabled placeholder="{{'Distributor'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" value="" disabled placeholder="{{'Factory'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Sale Man'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Sale Man'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'DN Number'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'DN Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Create DN Date'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Create DN Date'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Status DN'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="" placeholder="{{'Status Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group sale-order">
+                                    <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" disabled value="" placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{'Amount after Discount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" value="" disabled placeholder="{{'Amount after Discount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div *ngIf="ld" class="row flowBox">
+
+                            <legend>{{'Detail'|trans}}</legend>
+
+                            <fieldset>
+                                <div id="distributor" class="form-group">
+                                    <label class="col-md-2 control-label">{{'Distributor'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6 text-left">
+                                        <input type="text" value="{{ld.distributor.name}}" disabled placeholder="{{'Distributor'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Factory'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" value="{{ld.factory.name}}" disabled placeholder="{{'Factory'|trans}}" class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Sale Man'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.user.name}}" placeholder="{{'Sale Man'|trans}}" class="form-control"
+                                               autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'DN Number'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.dn_number}}" placeholder="{{'DN Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Create DN Date'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input type="text" disabled value="{{ld.created_at}}" placeholder="{{'Create DN Date'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">{{'Status DN'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <input *ngIf="dn_status == app.constant.deliveryReverseStatus" type="text" disabled value="{{'REVERSE'}}" placeholder="{{'Status Number'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group sale-order">
+                                    <label class="col-md-2 control-label">{{'Amount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" disabled value="{{E_Amount | number:'1.0-2'}}" placeholder="{{'Amount'|trans}}" class="form-control" autocomplete="off"/>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{'Amount after Discount'|trans}} <span class="text-danger">*</span></label>
+                                    <div class="col-md-2">
+                                        <input type="text" value="{{E_AmountDiscount | number:'1.0-2'}}" disabled placeholder="{{'Amount after Discount'|trans}}" class="form-control"
+                                               autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Reverse Delivery Notes'|trans}}</legend>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">{{ 'Code' | trans }}</th>
+                                    <th class="text-center">{{ 'Name' | trans }}</th>
+                                    <th class="text-center">{{ 'Image' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Note' | trans }}</th>
+                                    <th class="text-center">{{ 'Grade' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Attributes' | trans }}</th>
+                                    <th class="text-center">{{ 'Ordered UOM' | trans }}</th>
+                                    <th class="text-center">{{ 'Sales Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Remaining Sales Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Delivered Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Reverse Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Remaining After Reverse Quantity' | trans }}</th>
+                                    <th class="text-center">{{ 'Unit Price' | trans }}</th>
+                                    <th class="text-center">{{ 'Amount' | trans }}</th>
+                                    <th class="text-center col-md-1">{{ 'Discount' | trans }}</th>
+                                    <th class="text-center">{{'Amount after Discount' | trans}}</th>
+                                    <th class="text-center col-md-1">{{'Store' | trans}}</th>
+                                    <th class="text-center">{{'Quantity Stock' | trans}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngIf="arr.length === 0">
+                                    <td colspan="19" class="text-center">{{'No data result'|trans}}</td>
+                                </tr>
+                                </tbody>
+                                <tbody *ngFor="let item of arr; let i = index">
+                                <tr *ngFor="let pivot of item.pivot_item; let i_child = index">
+                                    <td class="text-center">{{pivot.stt}}</td>
+                                    <td *ngIf="pivot.product" class="text-center">{{pivot.product.code}}</td>
+                                    <td *ngIf="pivot.product" class="text-center">{{pivot.product.code}}</td>
+                                    <td *ngIf="pivot.product"><img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{pivot.product.image}}"
+                                                                   width="95" height="95px"></td>
+                                    <td><textarea style="width: 100px;" disabled class="dn_note{{pivot.id}}" cols="20" rows="5" value="{{pivot.notes}}"></textarea>
+                                    </td>
+                                    <td>{{pivot.grade ? pivot.grade.name : ''}}</td>
+                                    <td class="text-center">
+                                        <div *ngFor="let attr of pivot.product_attr">
+                                                            <span *ngIf="attr.type === app.constant.Attributes_Type_Number">{{attr.name + ':'}}<input style="width: 110px" type="text"
+                                                                                                                                                      disabled
+                                                                                                                                                      value="{{attr.attribute_label}}"></span>
+                                            <span *ngIf="attr.type === app.constant.Attributes_Type_String">{{attr.name + ':'}}<input style="width: 110px"
+                                                                                                                                      type="text" disabled
+                                                                                                                                      value="{{attr.attribute_label}}"></span>
+                                            <span *ngIf="attr.type === app.constant.Attributes_Type_List"> {{attr.name + ':'}}
+                                                                    <select style="width: 110px" disabled class="input-sm form-control attr" *ngIf="attr.listAttribute">
+                                                                     <option *ngFor="let j of attr.listAttribute|list" [value]="j.key" [selected]="j.key == attr.attribute_label">
+                                                                         {{j.value}}
+                                                                     </option>
+                                                                    </select>
+                                                            </span>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="pivot.uom" class="text-center">{{pivot.uom.name}}</td>
+                                    <td class="text-center">{{pivot.sale_quantity | number:'1.0-2'}}</td>
+                                    <td class="text-center">{{pivot.remaining_quantity_view | number:'1.0-2'}}</td>
+                                    <td class="text-center"><input disabled value="{{pivot.deliver_quantity_view | number:'1.0-2'}}"
+                                                                   style="width: 50px" id="amount"
+                                                                   class="amount{{pivot.id}} text-center amount-disabled quantity_ check_amount" autocomplete="off"
+                                                                   type="text">
+                                    </td>
+                                    <td class="text-center">{{pivot.delivered_quantity | number:'1.0-2'}}</td>
+                                    <td class="text-center">
+                                        {{pivot.dnRemaining_view | number:'1.0-2'}}
+                                    </td>
+                                    <td>{{pivot.unit_price | number:'1.0-2'}}</td>
+                                    <td class="text-center">
+                                        {{pivot.curAmount | number:'1.0-2'}}
+                                    </td>
+                                    <td>
+                                        <select style="width: 100px;" disabled class="input-sm form-control attr discount{{pivot.id}}">
+                                            <option *ngFor="let d of app.constant.Discount|list: ('Select')" [value]="d.key"
+                                                    [selected]="d.key === '' || d.key == pivot.discount_type">
+                                                {{d.value}}
+                                            </option>
+                                        </select>
+                                        <span>
+                                                            <input disabled style="width: 100px;" class="input_discount{{pivot.id}}" hidden type="number" value="{{pivot.discount}}">
+                                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="show_discount{{pivot.id}}" hidden>{{pivot.curAmountDiscount | number:'1.0-2'}}</span>
+                                    </td>
+                                    <td>
+                                                        <span>
+                                                            <select style="width: 100px;" disabled id="store{{pivot.stt - 1}}" *ngIf="pivot.product" class="input-sm form-control store{{pivot.id}}">
+                                                                <option *ngFor="let k of pivot.product.productstore|list: ('Select')" [value]="k.key"
+                                                                        [selected]="k.key == pivot.product.productstore[0].id">
+                                                                    {{k.value}}
+                                                                </option>
+                                                            </select>
+                                                        </span>
+                                    </td>
+                                    <td>
+                                        <p style="color: red" class="status_ check_stock"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="19" class="text-center">{{item.so_name}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Discount' |trans}}</legend>
+
+                        <div *ngFor="let item_data of totalDiscountArr; let index = index" class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> {{ 'Distributor Type' |trans }} <span class="text-danger"> * </span></label>
+                                <div class="col-md-2">
+                                    <select [disabled]="true" class="form-control selectDiscount{{index}}">
+                                        <option *ngFor="let item of DiscountType|list:('Select Discount Type'|trans)"
+                                                [value]="item.key" [selected]="item.key == item_data.discount_type_id">{{item.value}}</option>
+                                    </select>
+                                </div>
+
+                                <div  id="ADA{{index}}"  *ngIf="item_data.check_type_discount_value === this.app.constant.Type_Assign_discount_rate && item_data.discount_value > 0">
+                                    <label class="col-md-2 control-label"> {{ 'Assign Discount Rate' |trans }} <span
+                                        class="text-danger"> * </span></label>
+                                    <div class="col-md-2">
+                                        <input  disabled
+                                                class="Assign_discount_rate{{index}} discount_{{index}}" type="number" [value]="item_data.discount_value" name="pages_title[{{index}}]"
+                                                [attr.type_discount] = "'Assign_discount_rate'" [attr.e_amountdiscount] = "E_AmountDiscount ? E_AmountDiscount : E_Amount">
+                                    </div>
+                                </div>
+
+                                <div  id="ADA{{index}}" *ngIf="item_data.check_type_discount_value === this.app.constant.Type_Assign_discount_amount && item_data.discount_value > 0">
+                                    <label class="col-md-2 control-label"> {{ 'Assign Discount Amount' |trans }} <span
+                                        class="text-danger"> * </span></label>
+                                    <div class="col-md-2">
+                                        <input disabled
+                                               class="Assign_discount_amount{{index}} discount_{{index}}" type="number" [value]="item_data.discount_value" name="pages_title[{{index}}]"
+                                               [attr.type_discount] = "'Assign_discount_amount'"  [attr.e_amountdiscount] = "E_AmountDiscount ? E_AmountDiscount : E_Amount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h30"></div>
+                        <legend>{{'Note' |trans}}</legend>
+                        <textarea id="admin_note" disabled formControlName="notes" cols="183" rows="5"></textarea>
+
+                        <div class="form-group action_box">
+                            <div class="checkbox col-md-12">
+                                <a class="btn btn-default" [routerLink]='["/delivery-note/list"]' type="button">{{'Back'|trans}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--end view reverse dn-->

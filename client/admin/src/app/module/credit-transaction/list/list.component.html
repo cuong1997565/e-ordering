@@ -1,0 +1,66 @@
+<ele-breadcrumb [items]="['Credit Transaction'|trans, 'List'|trans]" icon="exchange"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/credit-transaction/form"]' class="btn btn-default btn-success pull-right">{{'New Credit Transaction'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting" (click)="ld.sort('distributor_name',$event)"><a>{{'Distributors'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('transaction_type',$event)"><a>{{'Transaction Type'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('amount',$event)"><a>{{'Transaction Amount (VNĐ)'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('description',$event)"><a>{{'Description'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('reference', $event)"><a>{{'Reference'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('is_hold', $event)"><a>{{'Hold Transaction'|trans}}</a></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th class="hasinput"><input (input)="ld.change('distributor_name', $event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th>
+                                <select (change)="ld.change('transaction_type',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.TransactionType|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="hasinput"><input (input)="ld.change('amount',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('description',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput"><input (input)="ld.change('reference',$event)" class="form-control" placeholder="{{'Filter'|trans}}" /></th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('is_hold',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="8" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data; let i = index">
+                            <td>{{ld.result.from + i }}</td>
+                            <td> <span *ngIf="item.distributor_name"> {{item.distributor_name }}  </span> </td>
+                            <td>
+                                 <span *ngIf="item.transaction_type === app.constant.TransactionTypeDR"> {{ 'DR' | trans }} </span>
+                                 <span *ngIf="item.transaction_type === app.constant.TransactionTypeCR"> {{ 'CR' | trans }} </span>
+                            </td>
+                            <td>{{ formatNumber(item.amount) }}</td>
+                            <td>{{item.description}}</td>
+                            <td> {{ item.reference }} </td>
+                            <td>
+                                <span *ngIf="item.is_hold == 1"> {{ 'Yes'  | trans }} </span>
+                                <span *ngIf="item.is_hold == 0"> {{ 'No'  | trans }} </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

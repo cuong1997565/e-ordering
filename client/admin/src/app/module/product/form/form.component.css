@@ -1,0 +1,55 @@
+.image-product{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+.chip {
+    display: inline-block;
+    padding: 0 15px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 25px;
+    line-height: 30px;
+    color: #2C1F0C;
+    background-color: #DDBF94;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+}
+
+.btn-button-area{
+    display: inline-block;
+    height: 30px;
+    font-size: 14px;
+    line-height: 14px;
+    border-radius: 2px;
+    margin-right: 10px;
+    color: #fff;
+    background-color: #57889c;
+    border-color: #4e7a8c;
+}
+
+
+.closebtn {
+    padding-left: 10px;
+    color: #888;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+
+.info-price-list {
+    color: #333;
+    background: #f8f8f8 !important;
+    border: 1px solid #d1d1d1 !important;
+}
+
+table.table-bordered tr:first-child th{
+    color: #333;
+    background: #eee !important;
+}

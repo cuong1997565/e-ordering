@@ -1,0 +1,43 @@
+<ele-breadcrumb [items]="['Languages'|trans, 'List'|trans]" icon="cube"></ele-breadcrumb>
+
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/translation/lang/form"]' class="btn btn-default btn-success pull-right">{{'New language'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover sortTable" [attr.data-table]="'langs'">
+                        <thead>
+                            <tr>
+                                <th class="sorting" (click)="ld.sort('lang',$event)"><a>{{'Lang'|trans}}</a></th>
+                                <th class="text-center col-md-2">{{'Actions'|trans}}</th>
+                            </tr>
+                            <tr>
+                                <th class="hasinput"><input (input)="ld.change('lang',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text" /></th>
+                                <th class="text-center col-md-2">
+                                    <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="2" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data" [attr.data-id]="item.id">
+                            <td>{{item.lang}}</td>
+                            <td class="text-center col-md-2">
+                                <a [routerLink]='["/translation/lang/form",item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                                <a (click)="ld.delete('langs/delete',item)" title="{{'Delete'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

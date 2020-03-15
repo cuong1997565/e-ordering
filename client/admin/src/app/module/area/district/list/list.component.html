@@ -1,0 +1,52 @@
+<ele-breadcrumb *ngIf="province" [items]="['Province'|trans, {url: '/province', label: province.name}, 'District'|trans, 'List'|trans]" icon="fa fa-map"></ele-breadcrumb>
+<div id="content" *ngIf="province">
+    <section id="widget-grid">
+        <a [routerLink]='["/district", province.id, "form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_CREATE_AREA]">{{'Add District'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover sortTable" [attr.data-table]="'districts'">
+                        <thead>
+                        <tr>
+                            <th class="sorting" (click)="ld.sort('code',$event)"><a>{{'Code'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'Name'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('active',$event)"><a>{{'Active'|trans}}</a></th>
+                            <th class="text-center col-md-2">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th class="hasinput"><input (input)="ld.change('code',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text"/></th>
+                            <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text"/></th>
+                            <th class="hasinput col-md-2">
+                                <select (change)="ld.change('active',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="text-center col-md-2">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="5" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data" [attr.data-id]="item.id">
+                            <td> {{ item.code }} </td>
+                            <td>
+                                <a [routerLink]='["/commune", item.id]'>{{item.name}}</a>
+                            </td>
+                            <td class="text-center"><ele-active active="{{item.active}}" model="Area" id="{{item.id}}"></ele-active></td>
+                            <td class="text-center col-md-2">
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_AREA]" [routerLink]='["/district", province.id, "form", item.id]' title="{{'Edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

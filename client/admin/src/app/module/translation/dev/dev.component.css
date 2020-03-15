@@ -1,0 +1,24 @@
+/*.trans-checkbox {*/
+    /*margin-top: -7px;*/
+/*}*/
+
+.button-dev-trans {
+    margin-right: 5px;
+}
+
+.trans-table label {
+    cursor: pointer;
+}
+
+input {
+    cursor: pointer;
+}
+
+.check-all-trans {
+    color: #fff;
+    font-weight: bold;
+}
+
+.check-all-label {
+    margin-bottom: 0px;
+}

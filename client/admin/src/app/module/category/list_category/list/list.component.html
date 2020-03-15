@@ -1,0 +1,52 @@
+<ele-breadcrumb [items]="['Category'|trans, 'List'|trans]" icon="cubes"></ele-breadcrumb>
+<div id="content">
+    <section id="widget-grid">
+        <a [routerLink]='["/list_category/form"]' class="btn btn-default btn-success pull-right" *ngIf="permissions[app.constant.PERMISSION_LIST_CATEGORIES]">{{'Add category'|trans}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover sortTable" [attr.data-table]="'cities'">
+                        <thead>
+                        <tr>
+                            <th class="sorting" (click)="ld.sort('code',$event)"><a>{{'Code'|trans}}</a></th>
+                            <th class="sorting" (click)="ld.sort('name',$event)"><a>{{'Name'|trans}}</a></th>
+                            <th class="sorting col-md-1" (click)="ld.sort('active',$event)"><a>{{'Status'|trans}}</a></th>
+                            <th class="text-center col-md-1">{{'Actions'|trans}}</th>
+                        </tr>
+                        <tr>
+                            <th class="hasinput"><input (input)="ld.change('code',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text"/></th>
+                            <th class="hasinput"><input (input)="ld.change('name',$event)" class="form-control" placeholder="{{'Filter'|trans}}" type="text"/></th>
+                            <th class="hasinput">
+                                <select (change)="ld.change('active',$event)" class="form-control" >
+                                    <option *ngFor="let item of app.constant.Active|list:('Select'|trans)" [value]="item.key||''" [selected]="item.key==''" >{{item.value|trans}}</option>
+                                </select>
+                            </th>
+                            <th class="text-center">
+                                <a (click)="ld.reset($event)" title="{{'Reset'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></a>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="ld.result.total == 0">
+                        <tr>
+                            <td colspan="5" class="text-center">{{'No data result'|trans}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="ld.result">
+                        <tr *ngFor="let item of ld.result.data" [attr.data-id]="item.id">
+                            <td> {{item.code}} </td>
+                            <td>
+                                <a [routerLink]='["/parent_list_category/",item.id]'>{{item.name}}</a>
+                            </td>
+                            <td class="text-center"><ele-active active="{{item.active}}" model="Category" id="{{item.id}}"></ele-active></td>
+                            <td class="text-center">
+                                <a *ngIf="permissions[app.constant.PERMISSION_EDIT_CATEGORY]" [routerLink]='["/list_category/form",item.id]' title="{{'edit'|trans}}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ele-paginator *ngIf="ld" currentPage="{{ld.result.current_page}}" totalPages="{{ld.result.last_page}}"></ele-paginator>
+            </div>
+        </div>
+    </section>
+</div>

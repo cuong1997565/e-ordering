@@ -1,0 +1,13 @@
+<div class="dataTables_paginate paging_simple_numbers" id="datatable_fixed_column_paginate">
+    <ul class="pagination">
+        <li class="paginate_button previous {{currentPage==1?'disabled':''}}" id="datatable_fixed_column_previous">
+            <a (click)="gotoPrevPage(currentPage)">{{'Previous'|trans}}</a>
+        </li>
+        <li *ngFor="let page of listPages" class="paginate_button {{currentPage==page?'active':''}}">
+            <a (click)="gotoPage(page)" tabindex="{{page}}">{{page}}</a>
+        </li>
+        <li class="paginate_button next {{currentPage==totalPages?'disabled':''}}" id="datatable_fixed_column_next">
+            <a (click)="gotoNextPage(currentPage)" >{{'Next'|trans}}</a>
+        </li>
+    </ul>
+</div>

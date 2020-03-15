@@ -1,0 +1,522 @@
+/* --------------------------------
+
+Primary style
+
+-------------------------------- */
+*, *::after, *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* --------------------------------
+
+Form
+
+-------------------------------- */
+.cd-checkbox-container{
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.cd-form::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.cd-form fieldset {
+  margin: 24px 0;
+}
+.cd-form legend {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  border-bottom: 1px solid #ecf0f1;
+  font-weight: bold;
+}
+
+.cd-form h4, .cd-form .cd-label {
+  font-size:16px;
+  color: #94aab0;
+  margin-bottom: 10px;
+}
+.cd-form .cd-label {
+  display: block;
+}
+.cd-form input, .cd-form textarea, .cd-form select, .cd-form label {
+  color: #000;
+}
+.cd-form__label{
+  font-weight: bold;
+  font-size:16px;
+  margin-bottom: 10px;
+}
+.cd-form__label--obligate{
+  color: #ff0000;
+}
+.cd-form input[type="text"],
+.cd-form input[type="email"],
+.cd-form textarea,
+.cd-form select,
+.cd-form legend {
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+.cd-form input[type="text"],
+.cd-form input[type="password"],
+.cd-form input[type="email"],
+.cd-form textarea,
+.cd-form select {
+  /* general style for input elements */
+  border: 1px solid #cbcbcb;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 0;
+}
+
+.cd-form input[type="text"]:focus,
+.cd-form input[type="email"]:focus,
+.cd-form textarea:focus,
+.cd-form select:focus {
+  outline: none;
+  border: 2px solid #ff9800;
+}
+.cd-form input[type="text"]:active,
+.cd-form input[type="email"]:active,
+.cd-form textarea:active,
+.cd-form select:active {
+  border: 2px solid #ff9800;
+}
+.cd-form input[type="text"].active,
+.cd-form input[type="email"].active,
+.cd-form textarea.active,
+.cd-form select.active {
+  border: 2px solid #ff9800;
+}
+.cd-form .cd-select {
+  position: relative;
+}
+.option-text{}
+
+.cd-form .cd-select::after {
+  /* arrow icon for select element */
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  margin-top: -3px;
+  width: 0;
+  height: 0;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  border-top: 6px solid #303030;
+  z-index: 106;
+}
+.cd-form select {
+  cursor: pointer;
+  padding-right: 20px;
+  background: #ffffff;
+  position: relative;
+  z-index: 101;
+  max-width: 100%;
+}
+.cd-form select::-ms-expand {
+  display: none;
+}
+
+
+.cd-form .cd-form-list {
+  margin-top: 16px;
+}
+.cd-form .cd-form-list::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.cd-form .cd-form-list li {
+  /* wrapper for radio and checkbox input types */
+  display: inline-block;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cd-form input[type=radio],
+.cd-form input[type=checkbox] {
+  /* hide original check and radio buttons */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  z-index: 2;
+}
+.cd-form input[type="radio"] + label,
+.cd-form input[type="checkbox"] + label {
+  padding-left: 24px;
+  font-size: 16px;
+  line-height: 3rem;
+}
+.cd-form input[type="radio"] + label::before,
+.cd-form input[type="radio"] + label::after,
+.cd-form input[type="checkbox"] + label::before,
+.cd-form input[type="checkbox"] + label::after {
+  /* custom radio and check boxes */
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -11px;
+  width: 20px;
+  height: 20px;
+}
+.cd-form input[type="radio"] + label::before{
+  border: 1px solid #a6a6a6;
+  background: #ffffff;
+}
+.cd-form input[type="checkbox"] + label::before {
+  border: 1px solid #a6a6a6;
+  background: #ffffff;
+}
+.cd-form input[type="radio"] + label::before,
+.cd-form input[type="radio"] + label::after {
+  border-radius: 50%;
+}
+.cd-form input[type="checkbox"] + label::before,
+.cd-form input[type="checkbox"] + label::after {
+
+}
+.cd-form input[type="checkbox"] + label::after {
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: none;
+
+}
+.cd-form input[type="radio"] + label::after {
+  /* custom image for radio button */
+  content: "";
+  font-size: 0.6rem;
+  left: 6px;
+  top: 21px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background:#a6a6a6 ;
+}
+.cd-form input[type="radio"]:checked + label::after {
+  background:#f7922a ;
+}
+.cd-form input[type="checkbox"] + label::after {
+  /* custom image for checkbox */
+  content: "";
+  color: #f05a24;
+  font-size: 18px;
+  left: 3px;
+  top: 16px;
+  margin-top: -13px;
+  position: absolute;
+  width: 15px;
+  height: 7px;
+  border-bottom: 2px solid #f7922a;
+  border-left: 2px solid #f7922a;
+  transform: rotate(-45deg);
+}
+.cd-form input[type="radio"]:focus + label::before,
+.cd-form input[type="checkbox"]:focus + label::before {
+  /* add focus effect for radio and check buttons */
+}
+.cd-form input[type="radio"]:checked + label::after,
+.cd-form input[type="checkbox"]:checked + label::after {
+  display: block;
+}
+
+.cd-form textarea {
+  min-height: 200px;
+  resize: vertical;
+  overflow: auto;
+}
+.cd-form input[type="submit"] {
+  /* button style */
+  border: none;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.no-touch .cd-form input[type="submit"]:hover {
+  background: #42a2e1;
+}
+
+.cd-form .error-message {
+  color: #ff0000;
+}
+.cd-form .error-message p {
+  background: #e94b35;
+  color: #ffffff;
+  font-size: 1.4rem;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: .25em;
+  padding: 16px;
+}
+.cd-form .error {
+  border-color: #e94b35 !important;
+}
+@media only screen and (min-width: 600px) {
+
+  .cd-form legend + div {
+    /* reduce margin-top for first form element after the legend */
+    margin-top: 20px;
+  }
+  .cd-form h4, .cd-form .cd-label {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  .cd-form input[type="text"],
+  .cd-form input[type="email"],
+  .cd-form textarea,
+  .cd-form select {
+    padding: 10px;
+  }
+}
+
+@-webkit-keyframes cd-bounce {
+  0%, 100% {
+    -webkit-transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.8);
+  }
+}
+@-moz-keyframes cd-bounce {
+  0%, 100% {
+    -moz-transform: scale(1);
+  }
+  50% {
+    -moz-transform: scale(0.8);
+  }
+}
+@keyframes cd-bounce {
+  0%, 100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
+  }
+}
+
+.js .floating-labels div {
+  margin: 28px 0;
+}
+.js .floating-labels .cd-label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 1.6rem;
+  cursor: text;
+  -webkit-transition: top 0.2s, left 0.2s, font-size 0.2s;
+  -moz-transition: top 0.2s, left 0.2s, font-size 0.2s;
+  transition: top 0.2s, left 0.2s, font-size 0.2s;
+}
+.js .floating-labels .icon .cd-label {
+  left: 56px;
+}
+.js .floating-labels .cd-label.float {
+  /* move label out the input field */
+  font-size: 1.2rem;
+  top: -16px;
+  left: 0 !important;
+}
+@media only screen and (min-width: 600px) {
+  .js .floating-labels legend + div {
+    /* reduce margin-top for first form element after the legend */
+    margin-top: 16px;
+  }
+  .js .floating-labels .cd-label {
+    top: 20px;
+  }
+}
+
+/*Thats all. I hope you enjoyed it.
+Thanks :)*/
+/***************************************************************/
+/*************** Footer Bar Style ******************************/
+/***************************************************************/
+.footer-bar
+{
+  display: block;
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  background: #111;
+  border-top: 1px solid #E62600;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.footer-bar .article-wrapper{
+  font-size: 14px;
+  color: #888;
+  float: left;
+  margin-left: 10%;
+}
+.footer-bar .article-link a, .footer-bar .article-link a:visited{
+  text-decoration: none;
+  color: #fff;
+}
+.site-link a, .site-link a:visited{
+  color: #888;
+  font-size: 14px;
+
+  float: right;
+  margin-right: 10%;
+  text-decoration: none;
+}
+.site-link a:hover{
+  color: #E62600;
+}
+
+
+/*----form start------*/
+input:focus, button:focus, textarea:focus{
+  outline: none;
+}
+.text-under-input{
+  font-size: 1rem;
+  font-family: NotoSans-d;
+}
+.select-hidden {
+  display: none;
+  visibility: hidden;
+  padding-right: 10px;
+}
+
+.select {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font-size: 1.6rem;
+  color: #231815;
+  width: 100%;
+  height: 42px;
+  margin-bottom: 10px;
+}
+
+.select-styled {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+  padding:8px 45px 8px 10px ;
+  display: flex;
+  align-items: center;
+  border: 1px solid #cbcbcb;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+}
+
+.select-styled:before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #f7922a;
+  right: 0;
+  border: 1px solid #ffffff;
+}
+.select-styled:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 14px;
+  right: 11px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #ffffff;
+}
+.select-styled:active, .select-styled.active {
+  background-color: #FFFFFF;
+  border: 2px solid #ff9800;
+}
+.select-styled:active:after, .select-styled.active:after {
+  top: 14px;
+  right: 11px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #ffffff;
+}
+.select-styled:active:before,.select-styled.active:before{
+  right: 0;
+  border: 1px solid #f7922a;
+}
+
+.select-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin:0;
+  padding: 0;
+  list-style: none;
+  background-color: #f1f1f1;
+  border: 1px solid #cbcbcb;
+  max-height: 200px;
+  overflow-y: scroll;
+
+}
+.select-options li {
+  margin: 0;
+  padding: 8px 0;
+  text-indent: 15px;
+  border-top: 1px solid #cbcbcb;
+}
+.select-options li:first-child{
+  border-top: none;
+}
+.select-options li:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.select-options li[rel=hide] {
+  display: none;
+}
+.select-options li.active{
+  background-color: #000000;
+  color: #ffffff;
+}
+/*----form end------*/
+
+.radio-container{
+  position: relative;
+  height: 30px;
+}

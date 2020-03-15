@@ -1,0 +1,141 @@
+<div id="main" class="main order-page">
+    <form class="container cd-form">
+        <div class="block">
+            <h2 class="block__title orange__title">Order items</h2>
+            <div class="table-list">
+                <table class="table-list__table table-mb__full-1">
+                    <tbody>
+                    <tr>
+                        <th>Code</th>
+                        <th class="table-list__table--with-img">Image</th>
+                        <th>Customer Note</th>
+                        <th>Sale Factory Note</th>
+                        <th>Quantity </th>
+                        <th> Uom </th>
+                        <th> Quantity Stock</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr *ngIf="currentProductsSelected.length === 0">
+                        <td class="center" colspan="10" rowspan="10">
+                            {{'No data result' | trans}}
+                        </td>
+                    </tr>
+                    <tr *ngFor="let selectedProduct of currentProductsSelected| keyvalue">
+                        <td class="center table__code">
+                            {{ selectedProduct.value.code }}
+                        </td>
+                        <td class="table-list__img">
+                            <img src="{{app.constant.FILE_UPLOAD_IMAGE}}{{ listProductsFromStore[selectedProduct.value.productId].image }}" alt="{{slideString(listProductsFromStore[selectedProduct.value.productId].image)}}" />
+                        </td>
+                        <td>
+                            {{ selectedProduct.value.userNote }}
+                        </td>
+                        <td>
+                            {{ selectedProduct.value.saleNote }}
+                        </td>
+                        <td class="text-center">
+                            {{ selectedProduct.value.amount }}
+                        </td>
+                        <td class="text-center">
+                            {{ selectedProduct.value.uomName }}
+                        </td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 1" class="center"><span class="status_cart status_stocking">Còn hàng</span></td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 0" class="center"><span class="status_cart status_not_available_stocking">Hết hàng</span></td>
+                        <td *ngIf="selectedProduct.value.checked_amount && selectedProduct.value.status == 2" class="center"><span class="status_cart status_not_available_stocking">Lỗi hệ thống</span></td>
+                        <td *ngIf="!selectedProduct.value.checked_amount" class="center"><img src="assets/images/loading.gif" width="50px" height="50px" alt=""></td>
+                        <td *ngIf="selectedProduct.value.statusItem == app.constant.WAITING_FOR_DRAF_ITEM_ORDER">  {{ 'DRAF' | trans }} </td>
+                        <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.Accept_ITEM_ORDER">  {{ 'ACCEPT' | trans }} </td>
+                        <td *ngIf="selectedProduct.value.statusItem && selectedProduct.value.statusItem == app.constant.REJECT_ITEM_ORDER">  {{ 'REJECT' | trans }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row form-note padding-top-10">
+                <div  class="col-12">
+                    <label class="search__form__label">Note:</label>
+                    <span class="paddLeft5"> {{ note }}  </span>
+                </div>
+            </div>
+
+            <div class="row form-address">
+                <div class="col-12">
+                    <label class="search__form__label"> Address: </label>
+                    <span class="paddLeft5"> {{ deliverAddress }} </span>
+                </div>
+            </div>
+
+            <div class="row form-calendar-double">
+                <div class="col-12">
+                    <label class="search__form__label">Delivery date:</label>
+                    <span class="paddLeft5"> {{ deliverDate }} </span>
+                </div>
+            </div>
+
+            <div class="row form-calendar-double">
+                <div class="col-12">
+                    <label class="search__form__label">Type:</label>
+                    <span class="paddLeft5" *ngIf="type == app.constant.Type_Manual"> {{ 'Manual' }} </span>
+                    <span class="paddLeft5" *ngIf="type == app.constant.Type_Auto" > {{ 'Auto' }} </span>
+                </div>
+            </div>
+
+
+            <div class="row form-status">
+                <div class="col-12">
+                    <label class="search__form__label" style="padding-right: 5px">Status:</label>
+                    <span  *ngIf="status === app.constant.WAITING_FOR_CONFIRM_ORDER">{{'Waiting for confirm' | trans}}</span>
+                    <span  *ngIf="status === app.constant.REVIEWING_ORDER">{{'Reviewing' | trans}}</span>
+                    <span  *ngIf="status === app.constant.CLOSED_ORDER">{{'Closed' | trans}}</span>
+                    <span  *ngIf="status === app.constant.REJECT_BY_SALES_ORDER">{{'Reject by sales' | trans}}</span>
+                    <span  *ngIf="status === app.constant.CANCELLED_BY_CUSTOMER_ORDER">{{'Cancelled' | trans}}</span>
+                    <span  *ngIf="status === app.constant.SALES_ACCEPTED_ORDER">{{'Accepted' | trans}}</span>
+                    <span  *ngIf="status === app.constant.DELIVERING_ORDER">{{'Delivering' | trans}}</span>
+                    <span  *ngIf="status === app.constant.CUSTOMER_SUBMITED_ORDER">{{'  Submited' | trans}}</span>
+                    <span *ngIf="status === app.constant.WAITING_FOR_DRAF_ORDER"> {{'Draft' | trans}} </span>
+                </div>
+            </div>
+
+            <div class="row form-calendar-double">
+                <div class="col-12">
+                    <label class="search__form__label">Date create order:</label>
+                    <span class="paddLeft5"> {{ createAt }} </span>
+                </div>
+            </div>
+
+
+            <div class="row form-calendar-double">
+                <div class="col-12">
+                    <label class="search__form__label">Date update order:</label>
+                    <span class="paddLeft5"> {{ updateAt }} </span>
+                </div>
+            </div>
+
+            <div *ngIf="dateSort.length > 0">
+                <div *ngFor="let item of dateSort">
+                    <div *ngIf="item.date !== '0000-00-00 00:00:00' && item.date !== null">
+                        <div class="row form-canceledDate-double">
+                            <div class="col-12">
+                                <label class="search__form__label"> {{ item.name }} </label>
+                                <span class="paddLeft5"> {{ item.date }} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="check === app.constant.GROUP_ADMIN || check === app.constant.ORDER_MANAGER" class="block__bottom">
+                <button class="button_black" (click)="listOrder()">Back</button>
+                <button class="button_black" *ngIf="status ===app.constant.WAITING_FOR_CONFIRM_ORDER || status === app.constant.CUSTOMER_SUBMITED_ORDER" (click)="cancelOrder(currentOrderId)"> Cancel </button>
+                <button class="button_black" *ngIf="status === app.constant.WAITING_FOR_DRAF_ORDER" (click)="confirmOrder(currentOrderId, currentOrderFactory)"> Submit </button>
+                <button class="button_black" *ngIf="status === app.constant.WAITING_FOR_CONFIRM_ORDER || status === app.constant.CUSTOMER_SUBMITED_ORDER || status === app.constant.WAITING_FOR_DRAF_ORDER" (click)="editOrder(currentOrderId, currentOrderFactory)"> Edit </button>
+                <button class="button_black" *ngIf="status === app.constant.SALES_ACCEPTED_ORDER && listSale.status > app.constant.SO_DRAFT
+                 || status === app.constant.DELIVERING_ORDER  && listSale.status > app.constant.SO_DRAFT || status === app.constant.CLOSED_ORDER && listSale.status > app.constant.SO_DRAFT" (click)="redirectSale(listSale.id)"> <i class="fa fa-edit"></i> {{'SO Detail'}} </button>
+            </div>
+            <div *ngIf="check === app.constant.ORDER_VIEWER" class="block__bottom">
+                <button class="button_black" (click)="listOrder()">Back</button>
+            </div>
+        </div>
+
+    </form>
+</div>
