@@ -192,6 +192,11 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ngrx/store@^8.6.0":
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-8.6.0.tgz#8540c5bd40b33fc2f443e7e86f47c0d801b8f413"
+  integrity sha512-K4cvCEa+5hw9qrETQWO+Cha3YbVCAT8yaIKJr/N35KntTL9mQMjoL+51JWLZfBwPV0e19CFgJIyrBnVUTxwr2A==
+
 "@ngtools/webpack@6.0.8":
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-6.0.8.tgz#a05bce526aee9da62bb230a95fba83fee99d0bca"
@@ -201,21 +206,21 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
-"@ngxs/devtools-plugin@^3.5.1":
+"@ngxs/devtools-plugin@3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.5.1.tgz#027c0e8c533cae6c0570db3154accec41760c1c0"
   integrity sha512-3/dHWCnAC5D4K3c0XJZ3RtzbRAcYYJDnZtHTL9z/kzH96Rynb41K+T8bJ/XhLFHSbXuNxd0/m+/unuS0CQQGvA==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/logger-plugin@^3.5.1":
+"@ngxs/logger-plugin@3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.5.1.tgz#34cdf8eab618d8ce36cafc6174d5fa78e4b65e84"
   integrity sha512-bQJavIjutn/TI2dNg5qZ1nvXVTQHzl3b7bJqM8Fn8Nx8PCenVhBIm5rNpvCSBGsUUAixdzDmY7jTaAnRLB9A6Q==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/store@^3.5.1":
+"@ngxs/store@3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.5.1.tgz#277aab3adc532088e53699962142b57852f59298"
   integrity sha512-oChcRNHHpYwrYQO4aPs4OP5vjvqspb9OdUW7ZcyVHJF5UyLCrETBWh+fqJwFoEXAiiOBL2CP4LtVcSu+o8DEVg==
@@ -3871,10 +3876,15 @@ jasminewd2@^2.1.0:
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
   integrity sha1-43zwsX8ZnM4jvqcbIDk5Uka07E4=
 
-jquery@^3.3.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
-  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
+jquery-datepicker@^1.12.3:
+  version "1.12.3"
+  resolved "https://registry.yarnpkg.com/jquery-datepicker/-/jquery-datepicker-1.12.3.tgz#c08c9a25e8936298786b341672fab54b92d13003"
+  integrity sha512-dj140t4syBKTLOvqnDJ/x03u9HcoatvX99t5IY/0IfEtxDtJAxB2VBCAZehbtHJg9Sb7YdC6/2BnGFk1pr/SgA==
+
+jquery@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.0.tgz#9980b97d9e4194611c36530e7dc46a58d7340fc9"
+  integrity sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
 
 js-base64@^2.1.8:
   version "2.5.1"
@@ -4518,6 +4528,11 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -5302,6 +5317,11 @@ pkg-dir@^3.0.0:
   integrity sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
   dependencies:
     find-up "^3.0.0"
+
+popper.js@^1.16.0:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 portfinder@^1.0.13, portfinder@^1.0.24:
   version "1.0.24"
